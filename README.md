@@ -1,0 +1,2 @@
+# OneClickSwitchLanguage
+Blender addon
