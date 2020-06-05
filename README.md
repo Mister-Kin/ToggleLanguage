@@ -2,13 +2,13 @@
 [![Blender](https://img.shields.io/badge/Blender-v2.80+-blue)](https://blender.org/)
 
 ## Introduction
-An addon for blender, aiming to quickly and easily switch UI between two language without repeatedly opening preferences setting.
+An addon for blender, aiming to quickly and easily switch UI between two language by using one click instead of repeatedly opening preferences setting.
 
 ## Usage
 [Jump Page *Documentation*][]
 
 ## Author
-**OneClickSwitchLanguage** © Mr. Kin, All files released under the [GNU GPL v3.3][] license.
+**OneClickSwitchLanguage** © Mr. Kin, All files released under the [GNU GPL v3.0][] license.
 
 Authored and maintained by Mr. Kin.
 
