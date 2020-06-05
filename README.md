@@ -15,7 +15,7 @@ Authored and maintained by Mr. Kin.
 > [Blog][] · [Github][] · [Weibo][] · [Zhihu][] · [Bilibili][] · [Youku][] · [Headline][] · [Youtube][]
 
 [Jump Page *Documentation*]: https://mister-kin.github.io/OneClickSwitchLanguage/
-[GNU GPL v3.3]: ./LICENSE
+[GNU GPL v3.0]: ./LICENSE
 [Blog]: https://mister-kin.github.io
 [Github]: https://github.com/mister-kin
 [Weibo]: https://weibo.com/6270111192/profile?topnav=1&wvr=6&is_all=1
