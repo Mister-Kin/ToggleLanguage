@@ -1,5 +1,5 @@
 # One Click Switch Language
-[![Blender Version](https://img.shields.io/badge/blender-v2.80+-blue)](https://blender.org/) [![Downloads](https://img.shields.io/github/downloads/Mister-Kin/OneClickSwitchLanguage/total)](https://github.com/Mister-Kin/OneClickSwitchLanguage/releases/latest)
+[![Blender Version](https://img.shields.io/badge/blender-v2.80+-blue)](https://blender.org/) [![Downloads](https://img.shields.io/github/downloads/Mister-Kin/OneClickSwitchLanguage/total?color=blue)](https://github.com/Mister-Kin/OneClickSwitchLanguage/releases/latest)
 
 ## Introduction
 An addon for blender, aiming to quickly and easily switch UI between two language by using one click instead of repeatedly opening preferences setting.
