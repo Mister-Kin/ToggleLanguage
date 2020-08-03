@@ -1,4 +1,4 @@
-# Copyright (C) Mr. Kin - One Click Switch Language
+# Copyright (C) Mr. Kin - Toggle Language
 # License: http://www.gnu.org/licenses/gpl.html GPL version 3 or higher
 
 # ##### BEGIN GPL LICENSE BLOCK #####
@@ -19,62 +19,74 @@
 # ##### END GPL LICENSE BLOCK #####
 
 bl_info = {
-    "name" : "One Click Switch Language",
+    "name" : "Toggle Language",
     "author" : "Mr. Kin",
-    "description" : "One Click to Switch UI between Two Language",
-    "blender" : (2, 80, 0),
-    "version" : (0, 3),
-    "location" : "Topbar & Info Line",
+    "description" : "One Click to Toggle UI between Two Language",
+    "blender" : (2, 83, 0),
+    "version" : (0, 4),
+    "location" : "Topbar",
     "warning" : "",
     "category" : "Interface",
-    "doc_url": "https://mister-kin.github.io/OneClickSwitchLanguage/",
+    "doc_url": "https://mister-kin.github.io/ToggleLanguage/",
     "tracker_url": "https://mister-kin.github.io/about/#联系方式",
 }
 
 import bpy
 from bpy.types import Header, Menu, Panel, Operator
+from bpy.utils import register_class, unregister_class
 
-class SwitchButtonUI(Header):
-    bl_idname='SwitchButtonUI'
+class ButtonUI(Header):
+    bl_idname='ButtonUI'
     bl_space_type='TOPBAR'
 
     def draw(self, context):
         region = context.region
 
         if region.alignment == 'RIGHT':
+            self.draw_right(context)
+        else:
             pass
-        else:
-            self.draw_left(context)
 
-    def draw_left(self,context):
+    def draw_right(self,context):
         layout=self.layout
-        l = bpy.context.preferences.view.language
-        if l=='en_US':
-            button_text='Switch Chinese'
-        else:
-            button_text='切换英语'
-        layout.operator('button.function', text=button_text)
 
-class ButtonFunction(Operator):
-    bl_idname = 'button.function'
-    bl_label = 'Button Function'
-    bl_description = 'Click Button to Switch Language'
+        lang = bpy.context.preferences.view.language
+        if lang=='en_US':
+            toggle_button_text='Toggle'
+        else:
+            toggle_button_text='切换'
+
+        split = layout.split(factor=1)
+        row = split.row(align=True)
+        row.operator('toggle_button.function', text=toggle_button_text)
+        row.operator("screen.userpref_show",icon='PREFERENCES',text="")
+
+class ToggleButtonFunction(Operator):
+    bl_idname = 'toggle_button.function'
+    bl_label = 'Toggle Button Function'
+    bl_description = 'Click Button to Toggle Language'
 
     def execute(self, context):
-        l=bpy.context.preferences.view.language
-        if l=='en_US':
+        lang=bpy.context.preferences.view.language
+        if lang=='en_US':
             bpy.context.preferences.view.language='zh_CN'
         else:
             bpy.context.preferences.view.language='en_US'
         return {'FINISHED'}
 
+classes ={
+    ButtonUI,
+    ToggleButtonFunction,
+}
+
 def register():
-    bpy.utils.register_class(SwitchButtonUI)
-    bpy.utils.register_class(ButtonFunction)
+    for x in classes:
+        register_class(x)
 
 def unregister():
-    bpy.utils.unregister_class(SwitchButtonUI)
-    bpy.utils.unregister_class(ButtonFunction)
+    for x in classes:
+        unregister_class(x)
 
+# only for live edit.
 if __name__=='__main__':
     register()

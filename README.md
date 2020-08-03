@@ -1,5 +1,5 @@
-# One Click Switch Language
-[![Blender Version](https://img.shields.io/badge/blender-v2.80+-blue)](https://blender.org/) [![Downloads](https://img.shields.io/github/downloads/Mister-Kin/OneClickSwitchLanguage/total?color=blue)](https://github.com/Mister-Kin/OneClickSwitchLanguage/releases/latest)
+# Toggle Language
+[![Blender Version](https://img.shields.io/badge/blender-v2.80+-blue)](https://blender.org/) [![Downloads](https://img.shields.io/github/downloads/Mister-Kin/ToggleLanguage/total?color=blue)](https://github.com/Mister-Kin/ToggleLanguage/releases/latest)
 
 ## Introduction
 An addon for blender, aiming to quickly and easily switch UI between two language by using one click instead of repeatedly opening preferences setting.
@@ -11,14 +11,14 @@ An addon for blender, aiming to quickly and easily switch UI between two languag
 [Jump Page *Documentation*][]
 
 ## Author
-**OneClickSwitchLanguage** © Mr. Kin, All files released under the [GNU GPL v3.0][] license.
+**ToggleLanguage** © Mr. Kin, All files released under the [GNU GPL v3.0][] license.
 
 Authored and maintained by Mr. Kin.
 
 > [Blog][] · [Github][] · [Weibo][] · [Zhihu][] · [Bilibili][] · [Youku][] · [Headline][] · [Youtube][]
 
-[Jump Page *Download*]: https://github.com/Mister-Kin/OneClickSwitchLanguage/releases/latest
-[Jump Page *Documentation*]: https://mister-kin.github.io/OneClickSwitchLanguage/
+[Jump Page *Download*]: https://github.com/Mister-Kin/ToggleLanguage/releases/latest
+[Jump Page *Documentation*]: https://mister-kin.github.io/ToggleLanguage/
 [GNU GPL v3.0]: ./LICENSE
 [Blog]: https://mister-kin.github.io
 [Github]: https://github.com/mister-kin
