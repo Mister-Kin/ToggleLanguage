@@ -1,8 +1,8 @@
 # Toggle Language
-[![Blender Version](https://img.shields.io/badge/blender-v2.80+-blue)](https://blender.org/) [![Downloads](https://img.shields.io/github/downloads/Mister-Kin/ToggleLanguage/total?color=blue)](https://github.com/Mister-Kin/ToggleLanguage/releases/latest)
+[![Blender Version](https://img.shields.io/badge/blender-v2.83+-blue)](https://blender.org/) [![Downloads](https://img.shields.io/github/downloads/Mister-Kin/ToggleLanguage/total?color=blue)](https://github.com/Mister-Kin/ToggleLanguage/releases/latest)
 
 ## Introduction
-An addon for blender, aiming to quickly and easily switch UI between two language by using one click instead of repeatedly opening preferences setting.
+An addon for blender, aiming to quickly and easily toggle UI between two language by using one click instead of repeatedly opening preferences setting.
 
 ## Download
 [Jump Page *Download*][]
