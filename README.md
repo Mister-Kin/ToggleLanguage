@@ -1,5 +1,8 @@
 # Toggle Language
-[![Blender Version](https://img.shields.io/badge/blender-v2.83+-blue)](https://www.blender.org/download/) [![Downloads](https://img.shields.io/github/downloads/Mister-Kin/ToggleLanguage/total?color=blue)](https://github.com/Mister-Kin/ToggleLanguage/releases/latest)
+[![Blender Version][]](https://www.blender.org/download/) [![Downloads][]](https://github.com/Mister-Kin/ToggleLanguage/releases/latest)
+
+[Blender Version]: https://img.shields.io/badge/blender-v2.83+-blue
+[Downloads]: https://img.shields.io/github/downloads/Mister-Kin/ToggleLanguage/total?color=blue
 
 ## Introduction
 An addon for blender, aiming to quickly and easily toggle UI between two language by using one click instead of repeatedly opening preferences setting.
@@ -7,8 +10,15 @@ An addon for blender, aiming to quickly and easily toggle UI between two languag
 ## Download
 [Jump to Download Page][]
 
+[Jump to Download Page]: https://github.com/Mister-Kin/ToggleLanguage/releases/latest
+
 ## Usage
 [Jump to Documentation Page][]
+
+[Offline Documentation - PDF][]
+
+[Jump to Documentation Page]: https://mister-kin.github.io/ToggleLanguage/
+[Offline Documentation - PDF]: https://github.com/Mister-Kin/OpenDocs/tree/master/Articles/ToggleLanguage/ToggleLanguage.pdf
 
 ## Author
 **ToggleLanguage** © Mr. Kin, All files released under the [GNU GPL v3.0][] license.
@@ -17,8 +27,6 @@ Authored and maintained by Mr. Kin.
 
 > [Blog][] · [Github][] · [Weibo][] · [Zhihu][] · [Bilibili][] · [Youku][] · [Headline][] · [Youtube][]
 
-[Jump to Download Page]: https://github.com/Mister-Kin/ToggleLanguage/releases/latest
-[Jump to Documentation Page]: https://mister-kin.github.io/ToggleLanguage/
 [GNU GPL v3.0]: ./LICENSE
 [Blog]: https://mister-kin.github.io
 [Github]: https://github.com/mister-kin
