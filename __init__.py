@@ -24,7 +24,7 @@ bl_info = {
     "description" : "One Click to Toggle UI between Two Language",
     "blender" : (2, 83, 0),
     "version" : (0, 5),
-    "location" : "Topbar",
+    "location" : "Topbar>TOPBAR_MT_editor_menus",
     "warning" : "",
     "category" : "Interface",
     "doc_url": "https://mister-kin.github.io/ToggleLanguage/",
