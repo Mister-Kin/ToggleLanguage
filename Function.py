@@ -2,8 +2,8 @@ import bpy
 from bpy.types import Header, Menu, Operator
 
 
-class ButtonUI(Header):
-    bl_idname = "ButtonUI"
+class TOPBAR_HT_ButtonUI(Header):
+    bl_idname = "TOPBAR_HT_ButtonUI"
     bl_space_type = "TOPBAR"
 
     def draw(self, context):
@@ -13,8 +13,10 @@ class ButtonUI(Header):
 
         layout = self.layout
         row = layout.row(align=True)
-        row.operator("function.toggle_language", text=lang_dict[lang]["toggle_button"])
-        row.menu("Settings_Menu", text=lang_dict[lang]["settings_menu"])
+        row.operator("function.toggle_language",
+                     text=lang_dict[lang]["toggle_button"])
+        row.menu("TOPBAR_MT_SettingsMenu",
+                 text=lang_dict[lang]["settings_menu"])
         row.operator("screen.userpref_show", icon="PREFERENCES", text="")
         if lang != "en_US":
             if scene.new_data_translation == True:
@@ -39,8 +41,8 @@ class ToggleButtonFunction(Operator):
         return {"FINISHED"}
 
 
-class SettingsMenu(Menu):
-    bl_idname = "Settings_Menu"
+class TOPBAR_MT_SettingsMenu(Menu):
+    bl_idname = "TOPBAR_MT_SettingsMenu"
     bl_label = "Settings Menu"
 
     def draw(self, context):
@@ -54,13 +56,18 @@ class SettingsMenu(Menu):
 
         layout = self.layout
         col = layout.column(align=True)
-        col.menu("Hint_Scheme", text=lang_dict[lang][hint_scheme_type])
+        col.menu("TOPBAR_MT_HintScheme",
+                 icon="TEXT",
+                 text=lang_dict[lang][hint_scheme_type])
         col.prop(scene,
                  "new_data_translation",
                  text=lang_dict[lang]["new_data_translation"])
         col.operator("my.preferences",
-                     icon="PREFERENCES",
+                     icon="SETTINGS",
                      text=lang_dict[lang]["my_preferences"])
+        col.operator("reset.preferences",
+                     icon="TOOL_SETTINGS",
+                     text=lang_dict[lang]["reset_preferences"])
 
     bpy.types.Scene.new_data_translation = bpy.props.BoolProperty(
         name="New Data Translation",
@@ -68,8 +75,8 @@ class SettingsMenu(Menu):
         default=False)
 
 
-class HintScheme(Menu):
-    bl_idname = "Hint_Scheme"
+class TOPBAR_MT_HintScheme(Menu):
+    bl_idname = "TOPBAR_MT_HintScheme"
     bl_label = "Hint Scheme"
 
     def draw(self, context):
@@ -119,10 +126,14 @@ class MyPreferences(Operator):
         userpref = context.preferences
 
         userpref.view.ui_scale = 1.3
+
+        theme_path = "C:\\Program Files\\Blender Foundation\\Blender {First_Main_Number}.{Second_Main_Number}\\{First_Main_Number}.{Second_Main_Number}\\scripts\\presets\\interface_theme\\blender_light.xml"
+        theme_path = theme_path.format(First_Main_Number=userpref.version[0],
+                                       Second_Main_Number=userpref.version[1])
         bpy.ops.script.execute_preset(
-            filepath=
-            "C:\\Program Files\\Blender Foundation\\Blender 2.92\\2.92\\scripts\\presets\\interface_theme\\blender_light.xml",
-            menu_idname="USERPREF_MT_interface_theme_presets")  # TODO 自动检测版本，以适应路径
+            filepath=theme_path,
+            menu_idname="USERPREF_MT_interface_theme_presets")
+
         bpy.ops.preferences.addon_enable(module="node_wrangler")
         bpy.ops.preferences.addon_enable(module="object_fracture_cell")
         bpy.ops.preferences.addon_enable(module="render_auto_tile_size")
@@ -130,10 +141,10 @@ class MyPreferences(Operator):
         userpref.inputs.use_rotate_around_active = True
         userpref.inputs.use_zoom_to_mouse = True
         context.window_manager.keyconfigs['blender'].preferences[
-            'use_pie_click_drag'] = True
+            'use_pie_click_drag'] = True  # 设置后需重启 blender，否则无法正常使用该功能（除非手动设置）
         context.window_manager.keyconfigs['blender'].preferences[
             'use_v3d_shade_ex_pie'] = True
-
+        # TODO CUDA启用问题和快捷键重定义问题。
         userpref.addons['cycles'].preferences.compute_device_type = "CUDA"
         #userpref.addons['cycles'].preferences.devices[0].use = True # 一般显卡会自动启用。
         #userpref.addons['cycles'].preferences.devices[1].use = True
@@ -160,15 +171,62 @@ class MyPreferences(Operator):
         return {"FINISHED"}
 
 
+class ResetPreferences(Operator):
+    bl_idname = "reset.preferences"
+    bl_label = "Reset Preferences"
+    bl_description = "Reset Preferences"
+
+    def execute(self, context):
+        bpy.ops.wm.read_factory_userpref()
+        bpy.ops.wm.save_userpref()
+        #bpy.ops.wm.read_factory_settings() # Load Factory Startup File Settings 会导致闪退，故不考虑加入该功能
+        #bpy.ops.wm.save_homefile()
+        return {"FINISHED"}
+
+
 ClassName = (
-    ButtonUI,
+    TOPBAR_HT_ButtonUI,
     ToggleButtonFunction,
-    HintScheme,
+    TOPBAR_MT_HintScheme,
     HintSchemeDeveloper,
     HintSchemeDefault,
-    SettingsMenu,
+    TOPBAR_MT_SettingsMenu,
     MyPreferences,
+    ResetPreferences,
 )
+
+addon_keymaps = []
+
+
+def register_keymaps():
+    wm = bpy.context.window_manager
+
+    km = wm.keyconfigs.addon.keymaps.new(name="Window")
+    kmi = km.keymap_items.new(idname="function.toggle_language",
+                              type="F5",
+                              value="PRESS")
+    addon_keymaps.append((km, kmi))
+
+    km = wm.keyconfigs.addon.keymaps.new(name="Window")
+    kmi = km.keymap_items.new(idname="wm.search_menu",
+                              type="F6",
+                              value="PRESS")
+    addon_keymaps.append((km, kmi))
+
+    km = wm.keyconfigs.addon.keymaps.new(name="Window")
+    kmi = km.keymap_items.new(idname="screen.userpref_show",
+                              type="U",
+                              value="PRESS",
+                              ctrl=True,
+                              alt=True)
+    addon_keymaps.append((km, kmi))
+
+
+def unregister_keymaps():
+    for km, kmi in addon_keymaps:
+        km.keymap_items.remove(kmi)
+    addon_keymaps.clear()
+
 
 lang_dict = {
     "zh_CN": {
@@ -180,7 +238,8 @@ lang_dict = {
         "hint_scheme_default": "默认",
         "hint_scheme_developer": "开发者",
         "new_data_translation": "新建数据 - 翻译",
-        "my_preferences": "我的偏好设置"
+        "my_preferences": "我的偏好设置",
+        "reset_preferences": "重置偏好设置"
     },
     "en_US": {
         "toggle_button": "Toggle",
@@ -191,6 +250,7 @@ lang_dict = {
         "hint_scheme_default": "Default",
         "hint_scheme_developer": "Developer",
         "new_data_translation": "New Data - Translation",
-        "my_preferences": "My Preferences"
+        "my_preferences": "My Preferences",
+        "reset_preferences": "Reset Preferences"
     }
 }

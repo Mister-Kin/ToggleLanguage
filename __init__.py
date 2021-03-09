@@ -54,11 +54,13 @@ def register():
     for mod in _modules_loaded:
         for cls in mod.ClassName:
             register_class(cls)
-    bpy.types.TOPBAR_MT_editor_menus.append(Function.ButtonUI.draw)
+    bpy.types.TOPBAR_MT_editor_menus.append(Function.TOPBAR_HT_ButtonUI.draw)
+    Function.register_keymaps()
 
 def unregister():
     from bpy.utils import unregister_class
     for mod in _modules_loaded:
         for cls in mod.ClassName:
             unregister_class(cls)
-    bpy.types.TOPBAR_MT_editor_menus.remove(Function.ButtonUI.draw)
+    bpy.types.TOPBAR_MT_editor_menus.remove(Function.TOPBAR_HT_ButtonUI.draw)
+    Function.unregister_keymaps()
