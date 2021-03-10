@@ -19,19 +19,19 @@
 # ##### END GPL LICENSE BLOCK #####
 
 bl_info = {
-    "name" : "Toggle Language",
-    "author" : "Mr. Kin",
-    "description" : "One Click to Toggle UI between Two Language",
-    "blender" : (2, 83, 0),
-    "version" : (0, 5),
-    "location" : "Topbar>TOPBAR_MT_editor_menus",
-    "warning" : "",
-    "category" : "Interface",
+    "name": "Toggle Language",
+    "author": "Mr. Kin",
+    "description": "One Click to Toggle UI between Two Language",
+    "blender": (2, 83, 0),
+    "version": (0, 6),
+    "location": "Topbar>TOPBAR_MT_editor_menus",
+    "warning": "",
+    "category": "Interface",
     "doc_url": "https://mister-kin.github.io/ToggleLanguage/",
     "tracker_url": "https://mister-kin.github.io/about/#联系方式",
 }
 
-_modules=[
+_modules = [
     "Function",
 ]
 
@@ -42,12 +42,13 @@ if "bpy" in locals():
 else:
     import bpy
     for val in _modules:
-        from . import(val)
+        from . import (val)
 
 __import__(name=__name__, fromlist=_modules)
 _namespace = globals()
 _modules_loaded = [_namespace[name] for name in _modules]
 del _namespace
+
 
 def register():
     from bpy.utils import register_class
@@ -56,6 +57,7 @@ def register():
             register_class(cls)
     bpy.types.TOPBAR_MT_editor_menus.append(Function.TOPBAR_HT_ButtonUI.draw)
     Function.register_keymaps()
+
 
 def unregister():
     from bpy.utils import unregister_class

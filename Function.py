@@ -144,10 +144,10 @@ class MyPreferences(Operator):
             'use_pie_click_drag'] = True  # 设置后需重启 blender，否则无法正常使用该功能（除非手动设置）
         context.window_manager.keyconfigs['blender'].preferences[
             'use_v3d_shade_ex_pie'] = True
-        # TODO CUDA启用问题和快捷键重定义问题。
+
         userpref.addons['cycles'].preferences.compute_device_type = "CUDA"
         #userpref.addons['cycles'].preferences.devices[0].use = True # 一般显卡会自动启用。
-        #userpref.addons['cycles'].preferences.devices[1].use = True
+        #userpref.addons['cycles'].preferences.devices[1].use = True # CUDA启用问题，目前 CYCLES 的 GPU 选项依然会是灰色，且手动点击查看才能解决。同时，直接开启该选项，插件目前会检测不出 CUDA 设备，导致「超出数据下标范围」的错误。
         userpref.system.audio_device = "SDL"
 
         userpref.filepaths.use_file_compression = True
@@ -188,8 +188,8 @@ ClassName = (
     TOPBAR_HT_ButtonUI,
     ToggleButtonFunction,
     TOPBAR_MT_HintScheme,
-    HintSchemeDeveloper,
     HintSchemeDefault,
+    HintSchemeDeveloper,
     TOPBAR_MT_SettingsMenu,
     MyPreferences,
     ResetPreferences,
@@ -235,8 +235,8 @@ lang_dict = {
         "hint_scheme": "提示方案",
         "hint_scheme_type_default": "提示方案：默认",
         "hint_scheme_type_developer": "提示方案：开发者",
-        "hint_scheme_default": "默认",
-        "hint_scheme_developer": "开发者",
+        "hint_scheme_default": "默认模式",
+        "hint_scheme_developer": "开发者模式",
         "new_data_translation": "新建数据 - 翻译",
         "my_preferences": "我的偏好设置",
         "reset_preferences": "重置偏好设置"
@@ -247,8 +247,8 @@ lang_dict = {
         "hint_scheme": "Hint Scheme",
         "hint_scheme_type_default": "Hint Scheme: Default",
         "hint_scheme_type_developer": "Hint Scheme: Developer",
-        "hint_scheme_default": "Default",
-        "hint_scheme_developer": "Developer",
+        "hint_scheme_default": "Default Mode",
+        "hint_scheme_developer": "Developer Mode",
         "new_data_translation": "New Data - Translation",
         "my_preferences": "My Preferences",
         "reset_preferences": "Reset Preferences"
