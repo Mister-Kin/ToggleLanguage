@@ -7,7 +7,7 @@
 [License]: https://img.shields.io/github/license/Mister-Kin/ToggleLanguage?color=blue
 
 ## Introduction
-An addon for blender, aiming to quickly and easily toggle UI between two language by using one click instead of repeatedly opening preferences setting.
+An addon for blender, aiming to quickly and easily toggle UI between two languages by using one click instead of repeatedly opening preferences setting.
 
 ## Download
 [Jump to Download Page][]
@@ -19,8 +19,8 @@ An addon for blender, aiming to quickly and easily toggle UI between two languag
 
 [Offline Documentation - PDF][]
 
-[Jump to Documentation Page]: https://mister-kin.github.io/ToggleLanguage/
-[Offline Documentation - PDF]: https://github.com/Mister-Kin/OpenDocs/tree/master/Articles/ToggleLanguage/ToggleLanguage.pdf
+[Jump to Documentation Page]: https://mister-kin.github.io/manual/toggle-language/
+[Offline Documentation - PDF]: https://github.com/Mister-Kin/OpenDocs/tree/master/Manual/ToggleLanguage/ToggleLanguage.pdf
 
 ## Author
 **ToggleLanguage** © Mr. Kin, all files released under the [GNU GPL v3.0][] license.

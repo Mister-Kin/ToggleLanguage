@@ -151,6 +151,7 @@ class MyPreferences(Operator):
         userpref.system.audio_device = "SDL"
 
         userpref.filepaths.use_file_compression = True
+        userpref.filepaths.use_auto_save_temporary_files = False
         userpref.filepaths.texture_directory = "H:\\Textures\\"
         userpref.filepaths.temporary_directory = "E:\\Temp\\"
         userpref.filepaths.render_cache_directory = "E:\\Temp\\"
