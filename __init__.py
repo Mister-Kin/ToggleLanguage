@@ -27,7 +27,7 @@ bl_info = {
     "location": "Topbar>TOPBAR_MT_editor_menus",
     "warning": "",
     "category": "Interface",
-    "doc_url": "https://mister-kin.github.io/ToggleLanguage/",
+    "doc_url": "https://mister-kin.github.io/manuals/toggle-language/",
     "tracker_url": "https://mister-kin.github.io/about/#联系方式",
 }
 
@@ -57,7 +57,7 @@ def register():
             register_class(cls)
     bpy.types.TOPBAR_MT_editor_menus.append(Function.TOPBAR_HT_ButtonUI.draw)
     Function.register_keymaps()
-
+    bpy.types.Scene.my_properties=bpy.props.PointerProperty(type=Function.MyProperties)
 
 def unregister():
     from bpy.utils import unregister_class
@@ -66,3 +66,4 @@ def unregister():
             unregister_class(cls)
     bpy.types.TOPBAR_MT_editor_menus.remove(Function.TOPBAR_HT_ButtonUI.draw)
     Function.unregister_keymaps()
+    del bpy.types.Scene.my_properties

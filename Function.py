@@ -1,5 +1,6 @@
 import bpy
-from bpy.types import Header, Menu, Operator
+from bpy.types import Header, Menu, Operator, PropertyGroup
+from bpy.props import BoolProperty
 
 
 class TOPBAR_HT_ButtonUI(Header):
@@ -18,8 +19,9 @@ class TOPBAR_HT_ButtonUI(Header):
         row.menu("TOPBAR_MT_SettingsMenu",
                  text=lang_dict[lang]["settings_menu"])
         row.operator("screen.userpref_show", icon="PREFERENCES", text="")
+        # 置于 Header 才能保证以下内容相关 UI 的绘制速度 - 即布尔按钮。
         if lang != "en_US":
-            if scene.new_data_translation == True:
+            if scene.my_properties.translate_new_data_name:
                 userpref.view.use_translate_new_dataname = True
             else:
                 userpref.view.use_translate_new_dataname = False
@@ -49,7 +51,7 @@ class TOPBAR_MT_SettingsMenu(Menu):
         scene = context.scene
         userpref = context.preferences
         lang = userpref.view.language
-        if userpref.view.show_developer_ui == True:
+        if userpref.view.show_developer_ui:
             hint_scheme_type = "hint_scheme_type_developer"
         else:
             hint_scheme_type = "hint_scheme_type_default"
@@ -59,9 +61,9 @@ class TOPBAR_MT_SettingsMenu(Menu):
         col.menu("TOPBAR_MT_HintScheme",
                  icon="TEXT",
                  text=lang_dict[lang][hint_scheme_type])
-        col.prop(scene,
-                 "new_data_translation",
-                 text=lang_dict[lang]["new_data_translation"])
+        col.prop(scene.my_properties,
+                 "translate_new_data_name",
+                 text=lang_dict[lang]["translate_new_date_name"])
         col.operator("my.preferences",
                      icon="SETTINGS",
                      text=lang_dict[lang]["my_preferences"])
@@ -69,9 +71,25 @@ class TOPBAR_MT_SettingsMenu(Menu):
                      icon="TOOL_SETTINGS",
                      text=lang_dict[lang]["reset_preferences"])
 
-    bpy.types.Scene.new_data_translation = bpy.props.BoolProperty(
-        name="New Data Translation",
-        description="Translation for New Data",
+
+class MyProperties(PropertyGroup):
+    """
+    # 使用即时绘制 UI 的方式，弃用 update 函数。
+    def set_translate_new_data_name_state(self, context):
+        scene = context.scene
+        userpref = context.preferences
+        lang = userpref.view.language
+        if lang != "en_US":
+            if scene.my_properties.translate_new_data_name:
+                userpref.view.use_translate_new_dataname = True
+            else:
+                userpref.view.use_translate_new_dataname = False
+        return {"FINISHED"}
+    """
+
+    translate_new_data_name: BoolProperty(
+        name="Translate new data name",
+        description="Enable or disable translation for new data name",
         default=False)
 
 
@@ -140,10 +158,17 @@ class MyPreferences(Operator):
         bpy.ops.preferences.addon_enable(module="development_icon_get")
         userpref.inputs.use_rotate_around_active = True
         userpref.inputs.use_zoom_to_mouse = True
-        context.window_manager.keyconfigs['blender'].preferences[
-            'use_pie_click_drag'] = True  # 设置后需重启 blender，否则无法正常使用该功能（除非手动设置）
-        context.window_manager.keyconfigs['blender'].preferences[
-            'use_v3d_shade_ex_pie'] = True
+        # v2.92 及以下用的配置文件名是 blender
+        if userpref.version[0] * 100 + userpref.version[1] >= 293:
+            context.window_manager.keyconfigs['Blender'].preferences[
+                'use_pie_click_drag'] = True  # 设置后需重启 blender，否则无法正常使用该功能（除非手动设置）
+            context.window_manager.keyconfigs['Blender'].preferences[
+                'use_v3d_shade_ex_pie'] = True
+        else:
+            context.window_manager.keyconfigs['blender'].preferences[
+                'use_pie_click_drag'] = True  # 设置后需重启 blender，否则无法正常使用该功能（除非手动设置）
+            context.window_manager.keyconfigs['blender'].preferences[
+                'use_v3d_shade_ex_pie'] = True
 
         userpref.addons['cycles'].preferences.compute_device_type = "CUDA"
         #userpref.addons['cycles'].preferences.devices[0].use = True # 一般显卡会自动启用。
@@ -194,6 +219,7 @@ ClassName = (
     TOPBAR_MT_SettingsMenu,
     MyPreferences,
     ResetPreferences,
+    MyProperties,
 )
 
 addon_keymaps = []
@@ -238,7 +264,7 @@ lang_dict = {
         "hint_scheme_type_developer": "提示方案：开发者",
         "hint_scheme_default": "默认模式",
         "hint_scheme_developer": "开发者模式",
-        "new_data_translation": "新建数据 - 翻译",
+        "translate_new_date_name": "翻译新建数据名称",
         "my_preferences": "我的偏好设置",
         "reset_preferences": "重置偏好设置"
     },
@@ -250,7 +276,7 @@ lang_dict = {
         "hint_scheme_type_developer": "Hint Scheme: Developer",
         "hint_scheme_default": "Default Mode",
         "hint_scheme_developer": "Developer Mode",
-        "new_data_translation": "New Data - Translation",
+        "translate_new_date_name": "Translate New Data Name",
         "my_preferences": "My Preferences",
         "reset_preferences": "Reset Preferences"
     }
