@@ -17,10 +17,10 @@ An addon for blender, aiming to quickly and easily toggle UI between two languag
 ## Usage
 [Jump to Documentation Page][]
 
-[Offline Documentation - PDF][]
+[Offline Documentation - PDF][] (Access Code: docs)
 
 [Jump to Documentation Page]: https://mister-kin.github.io/manuals/toggle-language/
-[Offline Documentation - PDF]: https://github.com/Mister-Kin/OpenDocs/tree/master/Manuals/ToggleLanguage/ToggleLanguage.pdf
+[Offline Documentation - PDF]: https://wwr.lanzoui.com/b02c7lamf
 
 ## Author
 **ToggleLanguage** © Mr. Kin, all files released under the [GNU GPL v3.0][] license.
