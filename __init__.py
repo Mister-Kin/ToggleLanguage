@@ -21,10 +21,10 @@
 bl_info = {
     "name": "Toggle Language",
     "author": "Mr. Kin",
-    "description": "One Click to Toggle UI between Two Language",
+    "description": "One Click to Toggle UI between Two Languages",
     "blender": (2, 83, 0),
-    "version": (0, 7),
-    "location": "Topbar>TOPBAR_MT_editor_menus",
+    "version": (0, 8),
+    "location": "Topbar Menu",
     "warning": "",
     "category": "Interface",
     "doc_url": "https://mister-kin.github.io/manuals/toggle-language/",
@@ -57,7 +57,11 @@ def register():
             register_class(cls)
     bpy.types.TOPBAR_MT_editor_menus.append(Function.TOPBAR_HT_ButtonUI.draw)
     Function.register_keymaps()
-    bpy.types.Scene.my_properties=bpy.props.PointerProperty(type=Function.MyProperties)
+    bpy.types.Scene.my_properties = bpy.props.PointerProperty(
+        type=Function.MyProperties)
+    from .LangsDict import langs_dict
+    bpy.app.translations.register(__name__, langs_dict)
+
 
 def unregister():
     from bpy.utils import unregister_class
@@ -67,3 +71,4 @@ def unregister():
     bpy.types.TOPBAR_MT_editor_menus.remove(Function.TOPBAR_HT_ButtonUI.draw)
     Function.unregister_keymaps()
     del bpy.types.Scene.my_properties
+    bpy.app.translations.unregister(__name__)
