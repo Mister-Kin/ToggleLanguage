@@ -23,7 +23,7 @@ bl_info = {
     "author": "Mr. Kin",
     "description": "One Click to Toggle UI between Two Languages",
     "blender": (2, 83, 0),
-    "version": (0, 8),
+    "version": (0, 9),
     "location": "Topbar Menu",
     "warning": "",
     "category": "Interface",
@@ -59,7 +59,7 @@ def register():
     Function.register_keymaps()
     bpy.types.Scene.my_properties = bpy.props.PointerProperty(
         type=Function.MyProperties)
-    from .LangsDict import langs_dict
+    from .Languages import langs_dict
     bpy.app.translations.register(__name__, langs_dict)
 
 
