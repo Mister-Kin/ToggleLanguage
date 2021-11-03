@@ -1,29 +1,26 @@
 import bpy
-from bpy.types import Header, Menu, Operator, PropertyGroup, AddonPreferences
+from bpy.types import Menu, Operator, PropertyGroup, AddonPreferences
 from bpy.props import BoolProperty, EnumProperty
 from bpy.app import translations
+from multiprocessing import cpu_count
 
 
-class TOPBAR_HT_ButtonUI(Header):
-    bl_idname = "TOPBAR_HT_ButtonUI"
-    bl_space_type = "TOPBAR"
+def Draw_UI(self, context):
+    scene = context.scene
+    userpref = context.preferences
 
-    def draw(self, context):
-        scene = context.scene
-        userpref = context.preferences
+    layout = self.layout
+    row = layout.row(align=True)
+    row.operator("function.toggle_language")
+    row.menu("TOPBAR_MT_SettingsMenu")
+    row.operator("screen.userpref_show", icon="PREFERENCES", text="")
 
-        layout = self.layout
-        row = layout.row(align=True)
-        row.operator("function.toggle_language")
-        row.menu("TOPBAR_MT_SettingsMenu")
-        row.operator("screen.userpref_show", icon="PREFERENCES", text="")
-
-        # 置于 Header 才能保证以下内容相关 UI 的绘制速度 - 即布尔按钮。
-        if translations.locale != "en_US":
-            if scene.my_properties.translate_new_data_name:
-                userpref.view.use_translate_new_dataname = True
-            else:
-                userpref.view.use_translate_new_dataname = False
+    # 置于此处才能保证该复选框的绘制速度。
+    if translations.locale != "en_US":
+        if scene.my_properties.translate_new_data_name:
+            userpref.view.use_translate_new_dataname = True
+        else:
+            userpref.view.use_translate_new_dataname = False
 
 
 class TOPBAR_MT_SettingsMenu(Menu):
@@ -129,62 +126,109 @@ class LoadMySettingsFunction(Operator):
         scene = context.scene
         userpref = context.preferences
 
-        userpref.view.ui_scale = 1.3
-
-        # TODO b"Darwin" b"Linux" bpy.app.binary_path
-        if bpy.app.build_platform == b"Windows":
-            theme_path = "C:\\Program Files\\Blender Foundation\\Blender {First_Main_Number}.{Second_Main_Number}\\{First_Main_Number}.{Second_Main_Number}\\scripts\\presets\\interface_theme\\blender_light.xml"
-            theme_path = theme_path.format(
-                First_Main_Number=userpref.version[0],
-                Second_Main_Number=userpref.version[1])
-            bpy.ops.script.execute_preset(
-                filepath=theme_path,
-                menu_idname="USERPREF_MT_interface_theme_presets")
+        if userpref.version[1] >= 90:
+            blender_v290 = True
         else:
-            pass
+            blender_v290 = False
+        if userpref.version[0] == 3:
+            blender_v3 = True
+        else:
+            blender_v3 = False
+
+        # v2.93 及之后版本的文件命名有所变化
+        if userpref.version[0] >= 3 or userpref.version[1] == 93:
+            blender_light_theme_name = "Blender_Light.xml"
+            blender_keyconfig_name = "Blender"
+        else:
+            blender_light_theme_name = "blender_light.xml"
+            blender_keyconfig_name = "blender"
+
+        userpref.view.ui_scale = 1.3
+        if blender_v290 or blender_v3:
+            userpref.view.show_statusbar_stats = True
+            userpref.view.show_statusbar_memory = True
+            if userpref.view.is_property_readonly("show_statusbar_vram"):
+                pass  # 无显卡时，该属性为只读，无法对其进行写操作。
+            else:
+                userpref.view.show_statusbar_vram = True
+        else:
+            userpref.system.audio_device = "SDL"  # v2.83 及之前版本未引入系统原生的 API，用 SDL 替代。
+
+        user_platform = bpy.app.build_platform
+        execution_path = bpy.app.binary_path
+        theme_path = "{First_Main_Number}.{Second_Main_Number}/scripts/presets/interface_theme/" + blender_light_theme_name
+        theme_path = theme_path.format(First_Main_Number=userpref.version[0],
+                                       Second_Main_Number=userpref.version[1])
+        # b"Windows" b"Darwin" b"Linux"
+        if user_platform == b"Windows":
+            theme_path = execution_path.replace("blender.exe", theme_path)
+        elif user_platform == b"Darwin":
+            theme_path = execution_path.replace("MacOS/Blender",
+                                                "Resources/" + theme_path)
+        else:
+            theme_path = execution_path[:-7] + theme_path
+        bpy.ops.script.execute_preset(
+            filepath=theme_path,
+            menu_idname="USERPREF_MT_interface_theme_presets")
 
         bpy.ops.preferences.addon_enable(module="node_wrangler")
         bpy.ops.preferences.addon_enable(module="object_fracture_cell")
-        bpy.ops.preferences.addon_enable(module="render_auto_tile_size")
         bpy.ops.preferences.addon_enable(module="development_icon_get")
+        # v3.0 及之后版本用的是 cyclesX，其中的 Auto Tiles 功能是为了减少内存占用，
+        # 即渲染 tile 大小的图像数据并缓存进硬盘，渲染结束时再合并在一起。
+        # 与老版的 cycles 渲染调度逻辑不一样，因此 auto_tile_size 插件在 v3.0 中被移除。
+        if blender_v3:
+            pass
+        else:
+            bpy.ops.preferences.addon_enable(module="render_auto_tile_size")
+
         userpref.inputs.use_rotate_around_active = True
         userpref.inputs.use_zoom_to_mouse = True
-        # v2.92 及以下用的配置文件名是 blender
-        if userpref.version[0] * 100 + userpref.version[1] >= 293:
-            context.window_manager.keyconfigs["Blender"].preferences[
-                "use_pie_click_drag"] = True  # 设置后需重启 blender，否则无法正常使用该功能（除非手动设置）
-            context.window_manager.keyconfigs["Blender"].preferences[
-                "use_v3d_shade_ex_pie"] = True
-        else:
-            context.window_manager.keyconfigs["blender"].preferences[
-                "use_pie_click_drag"] = True  # 设置后需重启 blender，否则无法正常使用该功能（除非手动设置）
-            context.window_manager.keyconfigs["blender"].preferences[
-                "use_v3d_shade_ex_pie"] = True
 
-        userpref.addons["cycles"].preferences.compute_device_type = "CUDA"
-        #userpref.addons["cycles"].preferences.devices[0].use = True # 一般显卡会自动启用。
-        #userpref.addons["cycles"].preferences.devices[1].use = True # CUDA 启用问题，目前 CYCLES 的 GPU 选项依然会是灰色，且手动点击查看才能解决。同时，直接开启该选项，插件目前会检测不出 CUDA 设备，导致「超出数据下标范围」的错误。
-        userpref.system.audio_device = "SDL"
+        kcpref = context.window_manager.keyconfigs[
+            blender_keyconfig_name].preferences
+        kcpref.use_pie_click_drag = True
+        kcpref.use_v3d_shade_ex_pie = True
 
         userpref.filepaths.use_file_compression = True
         userpref.filepaths.use_auto_save_temporary_files = False
-        userpref.filepaths.texture_directory = "H:\\Textures\\"
-        userpref.filepaths.temporary_directory = "E:\\Temp\\"
-        userpref.filepaths.render_cache_directory = "E:\\Temp\\"
-        userpref.filepaths.render_output_directory = "E:\\Process\\"
+        userpref.filepaths.texture_directory = "H:/Textures/"
+        userpref.filepaths.temporary_directory = "E:/Temp/"
+        userpref.filepaths.render_cache_directory = "E:/Temp/"
+        userpref.filepaths.render_output_directory = "E:/Process/"
+        scene.render.filepath = "E:/Process/"
 
-        userpref.view.show_statusbar_stats = True
-        userpref.view.show_statusbar_memory = True
-        userpref.view.show_statusbar_vram = True
-        bpy.ops.wm.save_userpref()
-
-        scene.render.filepath = "E:\\Process\\"
         scene.render.engine = "CYCLES"
-        scene.cycles.device = "GPU"
-        scene.cycles.use_adaptive_sampling = True
-        scene.ats_settings.cpu_choice = "256"
+        cpref = userpref.addons["cycles"].preferences
+        cpref.get_devices()  # 刷新设备
+        # 获取当前版本支持的设备类型，逐一设置以检测是否存在显卡。
+        for device_type in cpref.get_device_types(bpy.context):
+            try:
+                cpref.compute_device_type = device_type[0]
+                if cpref.has_active_device():
+                    gpu_exist = True
+                    break
+                else:
+                    gpu_exist = False
+                    cpref.compute_device_type = "NONE"
+            except TypeError:
+                pass
+        if gpu_exist:
+            cpref.get_devices()
+            for device in cpref.devices:
+                device.use = True
+            scene.cycles.device = "GPU"
+        else:
+            pass
+        if blender_v3:
+            pass
+        else:
+            scene.cycles.use_adaptive_sampling = True
+            scene.cycles.adaptive_threshold = 0.1
+            scene.ats_settings.cpu_choice = "256"
         scene.render.threads_mode = "FIXED"
-        scene.render.threads = 6
+        scene.render.threads = max(1, cpu_count() - 2)
+        bpy.ops.wm.save_userpref()
         bpy.ops.wm.save_homefile()
         return {"FINISHED"}
 
@@ -290,7 +334,6 @@ class AddonPref(AddonPreferences):
 
 
 ClassName = (
-    TOPBAR_HT_ButtonUI,
     TOPBAR_MT_SettingsMenu,
     TOPBAR_MT_HintSchemeMenu,
     ToggleButtonFunction,
