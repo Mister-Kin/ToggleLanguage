@@ -50,15 +50,44 @@ class ToggleLanguagePreferences(AddonPreferences):
         items=enum_languages,
     )
 
+    disable_paths_setting: BoolProperty(
+        name="Disable Paths Setting",
+        description="Disable paths setting of Load My Settings feature",
+        default=False,
+    )
+
+    disable_theme_setting: BoolProperty(
+        name="Disable Theme Setting",
+        description="Disable theme setting of Load My Settings feature",
+        default=False,
+    )
+
     def draw(self, context):
         layout = self.layout
-        layout.label(
-            text="Please select two languages for addon to toggle UI language."
+
+        box = layout.box()
+        box.label(
+            text="Please select two languages for addon to toggle UI language.",
+            icon="SETTINGS",
         )
-        row = layout.row(align=True)
+        row = box.row(align=True)
         row.prop(self, "first_lang")
         row.separator()
         row.prop(self, "second_lang")
+
+        box = layout.box()
+        box.label(
+            text="Some settings about Load My Settings feature.",
+            icon="TOOL_SETTINGS",
+        )
+        box.label(
+            text=
+            "Please configure following settings before applying Load My Settings feature.",
+        )
+        row = box.row(align=True)
+        row.prop(self, "disable_paths_setting")
+        row.separator()
+        row.prop(self, "disable_theme_setting")
 
 
 classes = (

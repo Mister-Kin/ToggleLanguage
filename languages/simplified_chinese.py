@@ -55,7 +55,19 @@ langs_dict = {
         "第二种语言",
         ("*", "Second language for toggling"):
         "用于切换的第二种语言",
+        ("*", "Disable Paths Setting"):
+        "禁用路径设置",
+        ("*", "Disable paths setting of Load My Settings feature"):
+        "禁用“加载我的设置”功能的路径设置",
+        ("*", "Disable Theme Setting"):
+        "禁用主题设置",
+        ("*", "Disable theme setting of Load My Settings feature"):
+        "禁用“加载我的设置”功能的主题设置",
         ("*", "Please select two languages for addon to toggle UI language."):
-        "请为插件选择两种语言以用于切换界面语言。"
+        "请为插件选择两种语言以用于切换界面语言。",
+        ("*", "Some settings about Load My Settings feature."):
+        "一些关于“加载我的设置”功能的设置。",
+        ("*", "Please configure following settings before applying Load My Settings feature."):
+        "在应用“加载我的设置”功能前，请配置以下设置。",
     }
 }

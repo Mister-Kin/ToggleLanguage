@@ -73,6 +73,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
     def execute(self, context):
         scene = context.scene
         userpref = context.preferences
+        addonpref = userpref.addons["ToggleLanguage"].preferences
 
         if userpref.version[1] >= 90:
             blender_v290 = True
@@ -102,22 +103,26 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         else:
             userpref.system.audio_device = "SDL"  # v2.83 及之前版本未引入系统原生的 API，用 SDL 替代。
 
-        user_platform = bpy.app.build_platform
-        execution_path = bpy.app.binary_path
-        theme_path = "{First_Main_Number}.{Second_Main_Number}/scripts/presets/interface_theme/" + blender_light_theme_name
-        theme_path = theme_path.format(First_Main_Number=userpref.version[0],
-                                       Second_Main_Number=userpref.version[1])
-        # b"Windows" b"Darwin" b"Linux"
-        if user_platform == b"Windows":
-            theme_path = execution_path.replace("blender.exe", theme_path)
-        elif user_platform == b"Darwin":
-            theme_path = execution_path.replace("MacOS/Blender",
-                                                "Resources/" + theme_path)
+        if addonpref.disable_theme_setting == False:
+            user_platform = bpy.app.build_platform
+            execution_path = bpy.app.binary_path
+            theme_path = "{First_Main_Number}.{Second_Main_Number}/scripts/presets/interface_theme/" + blender_light_theme_name
+            theme_path = theme_path.format(
+                First_Main_Number=userpref.version[0],
+                Second_Main_Number=userpref.version[1])
+            # b"Windows" b"Darwin" b"Linux"
+            if user_platform == b"Windows":
+                theme_path = execution_path.replace("blender.exe", theme_path)
+            elif user_platform == b"Darwin":
+                theme_path = execution_path.replace("MacOS/Blender",
+                                                    "Resources/" + theme_path)
+            else:
+                theme_path = execution_path[:-7] + theme_path
+            bpy.ops.script.execute_preset(
+                filepath=theme_path,
+                menu_idname="USERPREF_MT_interface_theme_presets")
         else:
-            theme_path = execution_path[:-7] + theme_path
-        bpy.ops.script.execute_preset(
-            filepath=theme_path,
-            menu_idname="USERPREF_MT_interface_theme_presets")
+            pass
 
         bpy.ops.preferences.addon_enable(module="node_wrangler")
         bpy.ops.preferences.addon_enable(module="object_fracture_cell")
@@ -139,12 +144,15 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         kcpref.use_v3d_shade_ex_pie = True
 
         userpref.filepaths.use_file_compression = True
-        userpref.filepaths.use_auto_save_temporary_files = False
-        userpref.filepaths.texture_directory = "H:/Textures/"
-        userpref.filepaths.temporary_directory = "E:/Temp/"
-        userpref.filepaths.render_cache_directory = "E:/Temp/"
-        userpref.filepaths.render_output_directory = "E:/Process/"
-        scene.render.filepath = "E:/Process/"
+        if addonpref.disable_paths_setting == False:
+            userpref.filepaths.use_auto_save_temporary_files = False
+            userpref.filepaths.texture_directory = "H:/Textures/"
+            userpref.filepaths.temporary_directory = "E:/Temp/"
+            userpref.filepaths.render_cache_directory = "E:/Temp/"
+            userpref.filepaths.render_output_directory = "E:/Process/"
+            scene.render.filepath = "E:/Process/"
+        else:
+            pass
 
         scene.render.engine = "CYCLES"
         cpref = userpref.addons["cycles"].preferences
