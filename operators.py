@@ -16,7 +16,7 @@ def message_box(title="Message Box", message="", icon="INFO"):
 class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
     bl_idname = "toggle_language.toggle_language"
     bl_label = "Toggle"
-    bl_description = "Click Button to Toggle Language"
+    bl_description = "Click button to toggle language"
 
     def execute(self, context):
         userpref = context.preferences
@@ -32,7 +32,7 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
             message_box(
                 title="Fail to Toggle Language",
                 message=
-                "Two Languages are Same! Please Select Two Different Languages for Addon.",
+                "Two languages are same! Please select two different languages for addon.",
                 icon="ERROR")
         return {"FINISHED"}
 
@@ -40,35 +40,35 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
 class TOGGLE_LANGUAGE_OT_use_default_hint_scheme(Operator):
     bl_idname = "toggle_language.use_default_hint_scheme"
     bl_label = "Default Mode"
-    bl_description = "Show No Extra Information"
+    bl_description = "Show no extra information"
 
     def execute(self, context):
         userpref = context.preferences
 
         userpref.view.show_developer_ui = False
         userpref.view.show_tooltips_python = False
-        self.report({"INFO"}, "Switch to Default Mode!")
+        self.report({"INFO"}, "Switch to default mode!")
         return {"FINISHED"}
 
 
 class TOGGLE_LANGUAGE_OT_use_developer_hint_scheme(Operator):
     bl_idname = "toggle_language.use_developer_hint_scheme"
     bl_label = "Developer Mode"
-    bl_description = "Show Tooltips and Options for Developers"
+    bl_description = "Show tooltips and options for developers"
 
     def execute(self, context):
         userpref = context.preferences
 
         userpref.view.show_developer_ui = True
         userpref.view.show_tooltips_python = True
-        self.report({"INFO"}, "Switch to Developer Mode!")
+        self.report({"INFO"}, "Switch to developer mode!")
         return {"FINISHED"}
 
 
 class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
     bl_idname = "toggle_language.load_my_settings"
     bl_label = "Load My Settings"
-    bl_description = "Load My Customized Settings of Startup File and Preferences"
+    bl_description = "Load my customized settings of startup file and preferences"
 
     def execute(self, context):
         scene = context.scene
@@ -187,7 +187,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 class TOGGLE_LANGUAGE_OT_load_factory_settings(Operator):
     bl_idname = "toggle_language.load_factory_settings"
     bl_label = "Load Factory Settings"
-    bl_description = "Load Factory Settings of Startup File and Preferences"
+    bl_description = "Load factory settings of startup file and preferences"
 
     def execute(self, context):
         bpy.ops.wm.read_factory_settings()

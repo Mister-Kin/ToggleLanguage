@@ -27,7 +27,7 @@ class ToggleLanguageSettings(PropertyGroup):
 
     translate_new_dataname: BoolProperty(
         name="Translate New Data-Block's Name",
-        description="Enable or Disable Translation of New Data-Block's Name",
+        description="Enable or disable translation of new data-block's name",
         default=False,
     )
 
@@ -38,14 +38,14 @@ class ToggleLanguagePreferences(AddonPreferences):
     # 在 AddonPreferences class 中构建 property，其值才能随着用户偏好设置自动保存。
     first_lang: EnumProperty(
         name="First Language",
-        description="First Language for Toggling",
+        description="First language for toggling",
         default="zh_CN",
         items=enum_languages,
     )
 
     second_lang: EnumProperty(
         name="Second Language",
-        description="Second Language for Toggling",
+        description="Second language for toggling",
         default="en_US",
         items=enum_languages,
     )
@@ -53,7 +53,7 @@ class ToggleLanguagePreferences(AddonPreferences):
     def draw(self, context):
         layout = self.layout
         layout.label(
-            text="Please Select Two Languages for Addon to Toggle UI Language."
+            text="Please select two languages for addon to toggle UI language."
         )
         row = layout.row(align=True)
         row.prop(self, "first_lang")
