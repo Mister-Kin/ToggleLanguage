@@ -1,3 +1,5 @@
+import bpy
+
 langs_dict = {}
 
 from os import listdir, path
@@ -10,3 +12,11 @@ for f in files_list:
         module_name = import_module("." + file_name[0], package=__name__)
         langs_dict.update(module_name.langs_dict)
 del files_list, file_name, module_name
+
+
+def register():
+    bpy.app.translations.register(__name__, langs_dict)
+
+
+def unregister():
+    bpy.app.translations.unregister(__name__)

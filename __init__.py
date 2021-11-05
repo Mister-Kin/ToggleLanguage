@@ -20,28 +20,29 @@
 
 bl_info = {
     "name": "Toggle Language",
-    "author": "Mr. Kin",
     "description": "One Click to Toggle UI between Two Languages",
-    "blender": (2, 83, 0),
+    "author": "Mr. Kin",
     "version": (0, 9),
+    "blender": (2, 83, 0),
     "location": "Topbar Menu",
-    "warning": "",
     "category": "Interface",
     "doc_url": "https://mister-kin.github.io/manuals/toggle-language/",
     "tracker_url": "https://mister-kin.github.io/about/#联系方式",
 }
 
 _modules = [
-    "Function",
+    "keymaps",
+    "operators",
+    "properties",
+    "ui",
+    "languages",
 ]
 
-# support reloading sub-modules(refer to scripts/startup/bl_ui/__init__.py)
+# support reloading sub-modules (refer to scripts/startup/bl_ui/__init__.py)
 if "bpy" in locals():
     from importlib import reload
     _modules_loaded[:] = [reload(val) for val in _modules_loaded]
     del reload
-
-import bpy
 
 __import__(name=__name__, fromlist=_modules)
 _namespace = locals()
@@ -50,24 +51,10 @@ del _namespace
 
 
 def register():
-    from bpy.utils import register_class
     for mod in _modules_loaded:
-        for cls in mod.ClassName:
-            register_class(cls)
-    bpy.types.TOPBAR_MT_editor_menus.append(Function.Draw_UI)
-    Function.register_keymaps()
-    bpy.types.Scene.my_properties = bpy.props.PointerProperty(
-        type=Function.MyProperties)
-    from .Languages import langs_dict
-    bpy.app.translations.register(__name__, langs_dict)
+        mod.register()
 
 
 def unregister():
-    from bpy.utils import unregister_class
     for mod in _modules_loaded:
-        for cls in mod.ClassName:
-            unregister_class(cls)
-    bpy.types.TOPBAR_MT_editor_menus.remove(Function.Draw_UI)
-    Function.unregister_keymaps()
-    del bpy.types.Scene.my_properties
-    bpy.app.translations.unregister(__name__)
+        mod.unregister()
