@@ -12,11 +12,14 @@ def register_keymaps():
                               value="PRESS")
     addon_keymaps.append((km, kmi))
 
+    # 没有第三方软件全局占用 F3 键的情况了，故注释掉该功能
+    """
     km = wm.keyconfigs.addon.keymaps.new(name="Window")
     kmi = km.keymap_items.new(idname="wm.search_menu",
                               type="F6",
                               value="PRESS")
     addon_keymaps.append((km, kmi))
+    """
 
     km = wm.keyconfigs.addon.keymaps.new(name="Window")
     kmi = km.keymap_items.new(idname="screen.userpref_show",
