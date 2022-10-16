@@ -1,3 +1,7 @@
+Language: EN [CN][ReadmeCN]
+
+[ReadmeCN]: ./README_CN.md
+
 # Toggle Language
 [![Version][]](https://github.com/Mister-Kin/ToggleLanguage/releases) [![Blender Version][]](https://www.blender.org/download/) [![Downloads][]](https://github.com/Mister-Kin/ToggleLanguage/releases/latest) [![License][]](./LICENSE)
 
@@ -39,8 +43,8 @@ Authored and maintained by Mr. Kin.
 [Blog]: https://mister-kin.github.io
 [Github]: https://github.com/mister-kin
 [Weibo]: https://weibo.com/6270111192/profile?topnav=1&wvr=6&is_all=1
+[Zhihu]: https://www.zhihu.com/people/drwu-94
 [Bilibili]: http://space.bilibili.com/17025250?
 [Youku]: http://i.youku.com/i/UNjA3MTk5Mjgw?spm=a2hzp.8253869.0.0
-[Youtube]: https://www.youtube.com/channel/UCNhtdG6whC5mlRDkrhQ0wLA?view_as=public
 [Headline]: https://www.toutiao.com/c/user/835254071079053/#mid=1663279303982091
-[Zhihu]: https://www.zhihu.com/people/drwu-94
+[Youtube]: https://www.youtube.com/channel/UCNhtdG6whC5mlRDkrhQ0wLA?view_as=public
