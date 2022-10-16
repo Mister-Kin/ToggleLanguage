@@ -4,23 +4,11 @@ from bpy.app import translations
 
 
 def draw_ui(self, context):
-    scene = context.scene
-    userpref = context.preferences
-
     layout = self.layout
     row = layout.row(align=True)
     row.operator("toggle_language.toggle_language")
     row.menu("TOGGLE_LANGUAGE_MT_settings")
     row.operator("screen.userpref_show", icon="PREFERENCES", text="")
-
-    # 置于此处才能保证 translate_new_dataname 复选框的更新速度。
-    # 而如果放在 TOGGLE_LANGUAGE_MT_settings 类中，会慢很多。
-    # 也不采用 property 的 update 函数，因为无法接管用户偏好设置。
-    if translations.locale != "en_US":
-        if scene.toggle_language_settings.translate_new_dataname:
-            userpref.view.use_translate_new_dataname = True
-        else:
-            userpref.view.use_translate_new_dataname = False
 
 
 class TOGGLE_LANGUAGE_MT_settings(Menu):

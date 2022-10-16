@@ -34,6 +34,13 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
                 message=
                 "Two languages are same! Please select two different languages for addon.",
                 icon="ERROR")
+
+        # 检测并修正 use_translate_new_dataname 选项值。
+        scene = context.scene
+        if lang == "en_US":
+            if userpref.view.use_translate_new_dataname != scene.toggle_language_settings.translate_new_dataname:
+                userpref.view.use_translate_new_dataname = scene.toggle_language_settings.translate_new_dataname
+
         return {"FINISHED"}
 
 

@@ -23,12 +23,18 @@ enum_languages = (
 )
 
 
-class ToggleLanguageSettings(PropertyGroup):
+def update_use_translate_new_dataname_option_state(self, context):
+    userpref = context.preferences
+    scene = context.scene
+    userpref.view.use_translate_new_dataname = scene.toggle_language_settings.translate_new_dataname
 
+
+class ToggleLanguageSettings(PropertyGroup):
     translate_new_dataname: BoolProperty(
         name="Translate New Data-Block's Name",
         description="Enable or disable translation of new data-block's name",
         default=False,
+        update=update_use_translate_new_dataname_option_state,
     )
 
 
