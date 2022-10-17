@@ -1,6 +1,7 @@
 import bpy
 from bpy.types import PropertyGroup, AddonPreferences
 from bpy.props import BoolProperty, EnumProperty
+from bpy.app import translations
 
 enum_languages = (
     ("zh_CN", "Simplified Chinese (简体中文)", "zh_CN", 1),
@@ -23,10 +24,12 @@ enum_languages = (
 )
 
 
-def update_use_translate_new_dataname_option_state(self, context):
+def update_translate_new_dataname_state(self, context):
     userpref = context.preferences
     scene = context.scene
-    userpref.view.use_translate_new_dataname = scene.toggle_language_settings.translate_new_dataname
+    lang = translations.locale
+    if lang != "en_US":
+        userpref.view.use_translate_new_dataname = scene.toggle_language_settings.translate_new_dataname
 
 
 class ToggleLanguageSettings(PropertyGroup):
@@ -34,7 +37,7 @@ class ToggleLanguageSettings(PropertyGroup):
         name="Translate New Data-Block's Name",
         description="Enable or disable translation of new data-block's name",
         default=False,
-        update=update_use_translate_new_dataname_option_state,
+        update=update_translate_new_dataname_state,
     )
 
 
