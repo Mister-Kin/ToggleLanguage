@@ -162,6 +162,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         else:
             pass
 
+        userpref.edit.undo_steps = 256
+
         scene.render.engine = "CYCLES"
         cpref = userpref.addons["cycles"].preferences
         cpref.refresh_devices()  # 刷新设备。
