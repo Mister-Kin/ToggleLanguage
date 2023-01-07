@@ -171,6 +171,16 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                 cpref.compute_device_type = device_type[0]
                 if cpref.has_active_device():
                     gpu_exist = True
+                    # 优先选择optix。
+                    if cpref.compute_device_type == "CUDA":
+                        try:
+                            cpref.compute_device_type = "OPTIX"
+                            if cpref.has_active_device():
+                                break
+                            else:
+                                cpref.compute_device_type = "CUDA"
+                        except TypeError:
+                            pass
                     break
                 else:
                     gpu_exist = False
