@@ -5,6 +5,7 @@ from multiprocessing import cpu_count
 
 
 def message_box(title="Message Box", message="", icon="INFO"):
+
     def draw(self, context):
         self.layout.label(text=message)
 
@@ -91,7 +92,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         else:
             blender_v3 = False
 
-        # v2.93 及之后版本的文件命名有所变化
+        # v2.93 及之后版本的文件命名有所变化。
         if userpref.version[0] >= 3 or userpref.version[1] == 93:
             blender_light_theme_name = "Blender_Light.xml"
             blender_keyconfig_name = "Blender"
@@ -154,10 +155,10 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         if addonpref.disable_paths_setting == False:
             userpref.filepaths.use_auto_save_temporary_files = False
             userpref.filepaths.texture_directory = "H:/texture/"
-            userpref.filepaths.temporary_directory = "E:/temp/"
-            userpref.filepaths.render_cache_directory = "E:/temp/"
-            userpref.filepaths.render_output_directory = "E:/process/"
-            scene.render.filepath = "E:/process/"
+            # userpref.filepaths.temporary_directory = "E:/temp/"
+            # userpref.filepaths.render_cache_directory = "E:/temp/"
+            userpref.filepaths.render_output_directory = "D:/process/"
+            scene.render.filepath = "D:/process/"
         else:
             pass
 
