@@ -164,7 +164,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 
         scene.render.engine = "CYCLES"
         cpref = userpref.addons["cycles"].preferences
-        cpref.get_devices()  # 刷新设备
+        cpref.refresh_devices()  # 刷新设备。
         # 获取当前版本支持的设备类型，逐一设置以检测是否存在显卡。
         for device_type in cpref.get_device_types(bpy.context):
             try:
@@ -188,9 +188,13 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             except TypeError:
                 pass
         if gpu_exist:
-            cpref.get_devices()
+            cpref.refresh_devices()
             for device in cpref.devices:
-                device.use = True
+                if device.type == "CPU":
+                    device.use = addonpref.use_cpu_in_gpu_render_setting
+                else:
+                    device.use = True
+
             scene.cycles.device = "GPU"
         else:
             pass

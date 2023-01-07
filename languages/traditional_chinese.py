@@ -69,5 +69,9 @@ langs_dict = {
         "一些關於“加載我的設定”功能的設定。",
         ("*", "Please configure following settings before applying Load My Settings feature."):
         "在應用“加載我的設定”功能前，請配置以下設定。",
+        ("*", "Use CPU in GPU Render Setting"):
+        "在GPU渲染設定中使用CPU",
+        ("*", "Use CPU in GPU render setting of Load My Settings feature"):
+        "在“加載我的設定”功能的GPU渲染設定中使用CPU",
     }
 }

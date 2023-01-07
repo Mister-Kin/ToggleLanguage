@@ -71,6 +71,12 @@ class ToggleLanguagePreferences(AddonPreferences):
         default=False,
     )
 
+    use_cpu_in_gpu_render_setting: BoolProperty(
+        name="Use CPU in GPU Render Setting",
+        description="Use CPU in GPU render setting of Load My Settings feature",
+        default=False,
+    )
+
     def draw(self, context):
         layout = self.layout
 
@@ -97,6 +103,9 @@ class ToggleLanguagePreferences(AddonPreferences):
         row.prop(self, "disable_paths_setting")
         row.separator()
         row.prop(self, "disable_theme_setting")
+
+        row = box.row(align=True)
+        row.prop(self, "use_cpu_in_gpu_render_setting")
 
 
 classes = (
