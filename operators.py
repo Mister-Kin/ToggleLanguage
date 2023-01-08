@@ -201,14 +201,17 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 
         scene.render.engine = "CYCLES"
         cpref = userpref.addons["cycles"].preferences
-        cpref.refresh_devices()  # 刷新设备。
+        if blender_v3:
+            cpref.refresh_devices()  # 刷新设备。
+        else:
+            cpref.get_devices()
         # 获取当前版本支持的设备类型，逐一设置以检测是否存在显卡。
         for device_type in cpref.get_device_types(bpy.context):
             try:
                 cpref.compute_device_type = device_type[0]
                 if cpref.has_active_device():
                     gpu_exist = True
-                    # 优先选择optix。
+                    # 当optix可用时优先选择。
                     if cpref.compute_device_type == "CUDA":
                         try:
                             cpref.compute_device_type = "OPTIX"
@@ -225,7 +228,10 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             except TypeError:
                 pass
         if gpu_exist:
-            cpref.refresh_devices()
+            if blender_v3:
+                cpref.refresh_devices()  # 刷新设备。
+            else:
+                cpref.get_devices()
             for device in cpref.devices:
                 if device.type == "CPU":
                     device.use = addonpref.use_cpu_in_gpu_render_setting
