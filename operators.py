@@ -94,10 +94,30 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 
         # v2.93 及之后版本的文件命名有所变化。
         if userpref.version[0] >= 3 or userpref.version[1] == 93:
-            blender_light_theme_name = "Blender_Light.xml"
+            dict_blender_theme_name = {
+                "blender_dark": "Blender_Dark.xml",
+                "blender_light": "Blender_Light.xml",
+                "deep_grey": "Deep_Grey.xml",
+                "maya": "Maya.xml",
+                "minimal_dark": "Minimal_Dark.xml",
+                "modo": "Modo.xml",
+                "print_friendly": "Print_Friendly.xml",
+                "white": "White.xml",
+                "xsi": "XSI.xml"
+            }
             blender_keyconfig_name = "Blender"
         else:
-            blender_light_theme_name = "blender_light.xml"
+            dict_blender_theme_name = {
+                "blender_dark": "blender_dark.xml",
+                "blender_light": "blender_light.xml",
+                "deep_grey": "deep_grey.xml",
+                "maya": "maya.xml",
+                "minimal_dark": "minimal_dark.xml",
+                "modo": "modo.xml",
+                "print_friendly": "print_friendly.xml",
+                "white": "white.xml",
+                "xsi": "xsi.xml"
+            }
             blender_keyconfig_name = "blender"
 
         userpref.view.ui_scale = 1.3
@@ -111,10 +131,25 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         else:
             userpref.system.audio_device = "SDL"  # v2.83 及之前版本未引入系统原生的 API，用 SDL 替代。
 
+        blender_theme_path_variable = {
+            "blender_dark": "",
+            "blender_light": "",
+            "deep_grey": "addons/",
+            "maya": "addons/",
+            "minimal_dark": "addons/",
+            "modo": "addons/",
+            "print_friendly": "addons/",
+            "white": "addons/",
+            "xsi": "addons/"
+        }
+
         if addonpref.disable_theme_setting == False:
             user_platform = bpy.app.build_platform
             execution_path = bpy.app.binary_path
-            theme_path = "{First_Main_Number}.{Second_Main_Number}/scripts/presets/interface_theme/" + blender_light_theme_name
+            theme_path = "{First_Main_Number}.{Second_Main_Number}/scripts/" + blender_theme_path_variable[
+                addonpref.
+                preset_theme] + "presets/interface_theme/" + dict_blender_theme_name[
+                    addonpref.preset_theme]
             theme_path = theme_path.format(
                 First_Main_Number=userpref.version[0],
                 Second_Main_Number=userpref.version[1])

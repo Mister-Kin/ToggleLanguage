@@ -73,5 +73,27 @@ langs_dict = {
         "在GPU渲染設定中使用CPU",
         ("*", "Use CPU in GPU render setting of Load My Settings feature"):
         "在“加載我的設定”功能的GPU渲染設定中使用CPU",
+        ("*", "Preset Theme"):
+        "預設主題",
+        ("*", "Preset theme for Load My Settings feature"):
+        "“加載我的設定”功能的預設主題",
+        ("*", "Blender Dark (Dark Theme)"):
+        "Blender深（深色主題）",
+        ("*", "Blender Light (Light Theme)"):
+        "Blender浅（淺色主題）",
+        ("*", "Deep Grey (Dark Theme)"):
+        "深灰（深色主題）",
+        ("*", "Maya (Dark Theme)"):
+        "Maya（深色主題）",
+        ("*", "Minimal Dark (Dark Theme)"):
+        "小深（深色主題）",
+        ("*", "Modo (Dark Theme)"):
+        "Modo（深色主題）",
+        ("*", "Print Friendly (Light Theme)"):
+        "適合打印（淺色主題）",
+        ("*", "White (Light Theme)"):
+        "白色（淺色主題）",
+        ("*", "XSI (Light Theme)"):
+        "XSI（淺色主題）"
     }
 }

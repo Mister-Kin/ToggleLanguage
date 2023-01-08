@@ -23,6 +23,18 @@ enum_languages = (
     ("ru_RU", "Russian (Русский)", "ru_RU", 17),
 )
 
+enum_themes = (
+    ("blender_dark", "Blender Dark", "Blender Dark (Dark Theme)", 1),
+    ("blender_light", "Blender Light", "Blender Light (Light Theme)", 2),
+    ("deep_grey", "Deep Grey", "Deep Grey (Dark Theme)", 3),
+    ("maya", "Maya", "Maya (Dark Theme)", 4),
+    ("minimal_dark", "Minimal Dark", "Minimal Dark (Dark Theme)", 5),
+    ("modo", "Modo", "Modo (Dark Theme)", 6),
+    ("print_friendly", "Print Friendly", "Print Friendly (Light Theme)", 7),
+    ("white", "White", "White (Light Theme)", 8),
+    ("xsi", "XSI", "XSI (Light Theme)", 9),
+)
+
 
 def update_translate_new_dataname_state(self, context):
     userpref = context.preferences
@@ -57,6 +69,13 @@ class ToggleLanguagePreferences(AddonPreferences):
         description="Second language for toggling",
         default="en_US",
         items=enum_languages,
+    )
+
+    preset_theme: EnumProperty(
+        name="Preset Theme",
+        description="Preset theme for Load My Settings feature",
+        default="white",
+        items=enum_themes,
     )
 
     disable_paths_setting: BoolProperty(
@@ -106,6 +125,8 @@ class ToggleLanguagePreferences(AddonPreferences):
 
         row = box.row(align=True)
         row.prop(self, "use_cpu_in_gpu_render_setting")
+        row.separator()
+        row.prop(self, "preset_theme")
 
 
 classes = (
