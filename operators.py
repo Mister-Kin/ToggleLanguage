@@ -199,6 +199,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 
         userpref.edit.undo_steps = 256
 
+        # cycles渲染引擎设置
         scene.render.engine = "CYCLES"
         cpref = userpref.addons["cycles"].preferences
         if blender_v3:
@@ -216,6 +217,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                         try:
                             cpref.compute_device_type = "OPTIX"
                             if cpref.has_active_device():
+                                optix_exist = True
                                 break
                             else:
                                 cpref.compute_device_type = "CUDA"
@@ -242,11 +244,42 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         else:
             pass
         if blender_v3:
-            pass
+            if not gpu_exist and userpref.version[0] >= 4:
+                scene.cycles.use_guiding = True
         else:
             scene.cycles.use_adaptive_sampling = True
             scene.cycles.adaptive_threshold = 0.1
-            scene.ats_settings.cpu_choice = "256"
+            scene.ats_settings.gpu_choice = "128"  # render_auto_tile_size插件的tiles大小设置
+
+        # 渲染降噪设置
+        if blender_v290 or blender_v3:
+            scene.cycles.use_denoising = True
+            scene.cycles.use_preview_denoising = True
+            scene.cycles.preview_denoising_input_passes = "RGB_ALBEDO_NORMAL"
+            if optix_exist:
+                scene.cycles.denoiser = "OPTIX"
+                scene.cycles.preview_denoiser = "OPTIX"
+            elif not gpu_exist:
+                scene.cycles.denoiser = "OPENIMAGEDENOISE"
+                scene.cycles.preview_denoiser = "OPENIMAGEDENOISE"
+            else:
+                if blender_v290:
+                    scene.cycles.denoiser = "NLM"
+
+        else:
+            context.view_layer.cycles.use_denoising = True
+            if optix_exist:
+                context.view_layer.cycles.use_optix_denoising = True
+                context.view_layer.cycles.denoising_optix_input_passes = "RGB_ALBEDO_NORMAL"
+                scene.cycles.preview_denoising = "OPTIX"
+
+        # cycles引擎采样设置
+        scene.cycles.samples = 250
+        scene.cycles.preview_samples = 1
+
+        # 其他优化渲染速度的设置
+        scene.render.use_persistent_data = True
+
         scene.render.threads_mode = "FIXED"
         scene.render.threads = max(1, cpu_count() - 2)
         bpy.ops.wm.save_userpref()
