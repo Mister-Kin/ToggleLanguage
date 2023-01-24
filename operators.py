@@ -260,12 +260,13 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             if optix_exist:
                 scene.cycles.denoiser = "OPTIX"
                 scene.cycles.preview_denoiser = "OPTIX"
-            elif not gpu_exist:
-                scene.cycles.denoiser = "OPENIMAGEDENOISE"
+            elif blender_v290:
+                scene.cycles.denoiser = "NLM"
                 scene.cycles.preview_denoiser = "OPENIMAGEDENOISE"
             else:
-                if blender_v290:
-                    scene.cycles.denoiser = "NLM"
+                scene.cycles.denoiser = "OPENIMAGEDENOISE"
+                scene.cycles.preview_denoiser = "OPENIMAGEDENOISE"
+                scene.cycles.preview_denoising_prefilter = "ACCURATE"
 
         else:
             context.view_layer.cycles.use_denoising = True
