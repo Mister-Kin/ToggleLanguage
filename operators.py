@@ -220,6 +220,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                                 optix_exist = True
                                 break
                             else:
+                                optix_exist = False
                                 cpref.compute_device_type = "CUDA"
                         except TypeError:
                             pass
