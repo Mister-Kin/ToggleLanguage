@@ -29,7 +29,7 @@
 
 [离线文档 - PDF][]（访问密码：docs）
 
-[跳转到文档页面]: https://mister-kin.github.io/manuals/toggle-language/
+[跳转到文档页面]: https://mister-kin.github.io/works/software-works/toggle-language/
 [离线文档 - PDF]: https://wwr.lanzoui.com/b02c7lamf
 
 ## 作者

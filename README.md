@@ -29,7 +29,7 @@ An addon for blender, aiming to quickly and easily toggle UI between two languag
 
 [Offline Documentation - PDF][] (Access Code: docs)
 
-[Jump to Documentation Page]: https://mister-kin.github.io/manuals/toggle-language/
+[Jump to Documentation Page]: https://mister-kin.github.io/works/software-works/toggle-language/
 [Offline Documentation - PDF]: https://wwr.lanzoui.com/b02c7lamf
 
 ## Author
