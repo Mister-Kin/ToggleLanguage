@@ -22,11 +22,12 @@ bl_info = {
     "name": "Toggle Language",
     "description": "One click to toggle UI between two languages",
     "author": "Mr. Kin",
-    "version": (1, 3),
+    "version": (1, 3, 1),
     "blender": (2, 83, 0),
     "location": "Topbar Menu",
     "category": "Interface",
-    "doc_url": "https://mister-kin.github.io/manuals/toggle-language/",
+    "doc_url":
+    "https://mister-kin.github.io/works/software-works/toggle-language/",
     "tracker_url": "https://mister-kin.github.io/about/#联系方式",
 }
 
