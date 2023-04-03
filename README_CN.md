@@ -37,14 +37,15 @@
 
 由 Mr. Kin 著作并维护。
 
-> [博客][] - [Github][] - [微博][] - [知乎][] - [Bilibili][] - [优酷][] - [头条][] - [油管][]
+> [博客][] · [GitHub][] · [微博][] · [知乎][] · [AcFun][] · [哔哩哔哩][] · [优酷][] · [头条][] · [油管][]
 
 [GNU GPL v3.0]: ./LICENSE
 [博客]: https://mister-kin.github.io
-[Github]: https://github.com/mister-kin
-[微博]: https://weibo.com/6270111192/profile?topnav=1&wvr=6&is_all=1
+[GitHub]: https://github.com/mister-kin
+[微博]: https://weibo.com/6270111192
 [知乎]: https://www.zhihu.com/people/drwu-94
-[Bilibili]: http://space.bilibili.com/17025250?
+[哔哩哔哩]: http://space.bilibili.com/17025250?
 [优酷]: http://i.youku.com/i/UNjA3MTk5Mjgw?spm=a2hzp.8253869.0.0
 [头条]: https://www.toutiao.com/c/user/835254071079053/#mid=1663279303982091
-[油管]: https://www.youtube.com/channel/UCNhtdG6whC5mlRDkrhQ0wLA?view_as=public
+[油管]: https://www.youtube.com/@Mister-Kin
+[AcFun]: https://www.acfun.cn/u/73269306
