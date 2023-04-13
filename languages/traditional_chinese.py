@@ -63,6 +63,10 @@ langs_dict = {
         "禁用主題設定",
         ("*", "Disable theme setting of Load My Settings feature"):
         "禁用“加載我的設定”功能的主題設定",
+        ("*", "Disable Saving Startup File"):
+        "禁止儲存初始啓動檔案",
+        ("*", "Disable saving startup file when applying feature Load My Settings"):
+        "應用“加載我的設定”功能時，禁止儲存初始啓動檔案",
         ("*", "Please select two languages for addon to toggle UI language."):
         "請爲插件選擇兩種語言以用於切換界面語言。",
         ("*", "Some settings about Load My Settings feature."):

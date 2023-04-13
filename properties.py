@@ -90,6 +90,13 @@ class ToggleLanguagePreferences(AddonPreferences):
         default=False,
     )
 
+    disable_saving_startup_file: BoolProperty(
+        name="Disable Saving Startup File",
+        description=
+        "Disable saving startup file when applying feature Load My Settings",
+        default=False,
+    )
+
     use_cpu_in_gpu_render_setting: BoolProperty(
         name="Use CPU in GPU Render Setting",
         description="Use CPU in GPU render setting of Load My Settings feature",
@@ -126,6 +133,9 @@ class ToggleLanguagePreferences(AddonPreferences):
         row = box.row(align=True)
         row.prop(self, "use_cpu_in_gpu_render_setting")
         row.separator()
+        row.prop(self, "disable_saving_startup_file")
+
+        row = box.row(align=True)
         row.prop(self, "preset_theme")
 
 

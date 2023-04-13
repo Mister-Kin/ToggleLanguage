@@ -285,7 +285,10 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         scene.render.threads_mode = "FIXED"
         scene.render.threads = max(1, cpu_count() - 2)
         bpy.ops.wm.save_userpref()
-        bpy.ops.wm.save_homefile()
+        if addonpref.disable_saving_startup_file == False:
+            bpy.ops.wm.save_homefile()
+        else:
+            pass
         return {"FINISHED"}
 
     def invoke(self, context, event):
