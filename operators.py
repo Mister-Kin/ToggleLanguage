@@ -174,7 +174,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         # 即渲染 tile 大小的图像数据并缓存进硬盘，渲染结束时再合并在一起。
         # 与老版的 cycles 渲染调度逻辑不一样，因此 auto_tile_size 插件在 v3.0 中被移除。
         if blender_v3:
-            pass
+            # TODO：根据当前可用内存自动设置合适大小（仍需查询资料或者查看源码确认显存是否会受影响）
+            scene.cycles.tile_size = 4096  # 设置平铺大小为4096px，避免渲染4k图像时导致分割
         else:
             bpy.ops.preferences.addon_enable(module="render_auto_tile_size")
 
@@ -284,6 +285,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 
         scene.render.threads_mode = "FIXED"
         scene.render.threads = max(1, cpu_count() - 2)
+        bpy.ops.file.autopack_toggle()  # 自动打包资源，例如加载的外部纹理图片，避免路径改变后导致文件未找到
         bpy.ops.wm.save_userpref()
         if addonpref.disable_saving_startup_file == False:
             bpy.ops.wm.save_homefile()
