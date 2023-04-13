@@ -1,5 +1,13 @@
 langs_dict = {
     "zh_TW": {
+        # __init.py
+        ("*", "Toggle Language"):
+        "切換語言",
+        ("*", "One click to toggle UI between two languages"):
+        "在兩種語言中一鍵切換界面語言",
+        ("*", "Topbar Menu"):
+        "頂部標題欄",
+
         # ui.py
         ("*", "Settings"):
         "設定",
