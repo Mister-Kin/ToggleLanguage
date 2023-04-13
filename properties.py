@@ -131,9 +131,9 @@ class ToggleLanguagePreferences(AddonPreferences):
         row.prop(self, "disable_theme_setting")
 
         row = box.row(align=True)
-        row.prop(self, "use_cpu_in_gpu_render_setting")
-        row.separator()
         row.prop(self, "disable_saving_startup_file")
+        row.separator()
+        row.prop(self, "use_cpu_in_gpu_render_setting")
 
         row = box.row(align=True)
         row.prop(self, "preset_theme")
