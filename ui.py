@@ -29,6 +29,8 @@ class TOGGLE_LANGUAGE_MT_settings(Menu):
                  icon="TEXT",
                  text=hint_scheme_menu_name)
         col.prop(scene.toggle_language_settings, "translate_new_dataname")
+        col.operator("toggle_language.delete_all_collections_and_objects",
+                     icon="OUTLINER_COLLECTION")
         col.operator("toggle_language.load_my_settings", icon="SETTINGS")
         col.operator("toggle_language.load_factory_settings",
                      icon="TOOL_SETTINGS")

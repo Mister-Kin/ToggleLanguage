@@ -41,6 +41,12 @@ langs_dict = {
         "顯示開發者的工具提示和選項",
         ("*", "Switch to developer mode!"):
         "切換到開發者模式！",
+        ("Operator", "Delete All Collections and Objects"):
+        "刪除所有集合和物體",
+        ("*", "Delete all collections and objects in current scene"):
+        "删除當前場景中的所有集合和物體",
+        ("*", "Delete all collections and objects in current scene successfully!"):
+        "成功删除當前場景中的所有集合和物體！",
         ("Operator", "Load My Settings"):
         "載入我的設定",
         ("*", "Load my customized settings of startup file and preferences"):

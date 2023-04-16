@@ -73,6 +73,35 @@ class TOGGLE_LANGUAGE_OT_use_developer_hint_scheme(Operator):
         return {"FINISHED"}
 
 
+class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
+    bl_idname = "toggle_language.delete_all_collections_and_objects"
+    bl_label = "Delete All Collections and Objects"
+    bl_description = "Delete all collections and objects in current scene"
+
+    def execute(self, context):
+        scene = context.scene
+
+        # 删除 Scene Collection 子项的物体
+        for obj in scene.collection.objects:
+            # if obj.users != 0可以检测data数据引用次数，不为0就删除，避免出现删除错误：which still has 1 users (including 0 'extra' shallow users)，实际测试无效
+            bpy.data.objects.remove(obj)
+
+        # 删除 Scene Collection 子项的集合，该操作也可直接删除子项集合中的物体
+        for collection in scene.collection.children:
+            bpy.data.collections.remove(collection)
+
+        # remove会一同删除项目本身及其子项，但object的data还存储在blend文件中，可通过垃圾回收orphans_purge清除
+        bpy.ops.outliner.orphans_purge(do_recursive=True)
+
+        self.report({
+            "INFO"
+        }, "Delete all collections and objects in current scene successfully!")
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return context.window_manager.invoke_confirm(self, event)
+
+
 class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
     bl_idname = "toggle_language.load_my_settings"
     bl_label = "Load My Settings"
@@ -316,6 +345,7 @@ classes = (
     TOGGLE_LANGUAGE_OT_toggle_language,
     TOGGLE_LANGUAGE_OT_use_default_hint_scheme,
     TOGGLE_LANGUAGE_OT_use_developer_hint_scheme,
+    TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects,
     TOGGLE_LANGUAGE_OT_load_my_settings,
     TOGGLE_LANGUAGE_OT_load_factory_settings,
 )
