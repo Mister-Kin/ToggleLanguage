@@ -7,6 +7,7 @@ def draw_ui(self, context):
     layout = self.layout
     row = layout.row(align=True)
     row.operator("toggle_language.toggle_language")
+    row.menu("TOGGLE_LANGUAGE_MT_utilities")
     row.menu("TOGGLE_LANGUAGE_MT_settings")
     row.operator("screen.userpref_show", icon="PREFERENCES", text="")
 
@@ -29,8 +30,6 @@ class TOGGLE_LANGUAGE_MT_settings(Menu):
                  icon="TEXT",
                  text=hint_scheme_menu_name)
         col.prop(scene.toggle_language_settings, "translate_new_dataname")
-        col.operator("toggle_language.delete_all_collections_and_objects",
-                     icon="OUTLINER_COLLECTION")
         col.operator("toggle_language.load_my_settings", icon="SETTINGS")
         col.operator("toggle_language.load_factory_settings",
                      icon="TOOL_SETTINGS")
@@ -47,9 +46,21 @@ class TOGGLE_LANGUAGE_MT_hint_scheme(Menu):
         col.operator("toggle_language.use_developer_hint_scheme")
 
 
+class TOGGLE_LANGUAGE_MT_utilities(Menu):
+    bl_idname = "TOGGLE_LANGUAGE_MT_utilities"
+    bl_label = "Utilities"
+
+    def draw(self, context):
+        layout = self.layout
+        col = layout.column(align=True)
+        col.operator("toggle_language.delete_all_collections_and_objects",
+                     icon="OUTLINER_COLLECTION")
+
+
 classes = (
     TOGGLE_LANGUAGE_MT_settings,
     TOGGLE_LANGUAGE_MT_hint_scheme,
+    TOGGLE_LANGUAGE_MT_utilities,
 )
 
 
