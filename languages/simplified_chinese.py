@@ -41,12 +41,6 @@ langs_dict = {
         "显示开发者的工具提示和选项",
         ("*", "Switch to developer mode!"):
         "切换到开发者模式！",
-        ("Operator", "Delete All Collections and Objects"):
-        "删除所有集合和物体",
-        ("*", "Delete all collections and objects in current scene"):
-        "删除当前场景中的所有集合和物体",
-        ("*", "Delete all collections and objects in current scene successfully!"):
-        "成功删除当前场景中的所有集合和物体！",
         ("Operator", "Load My Settings"):
         "加载我的设置",
         ("*", "Load my customized settings of startup file and preferences"):
@@ -55,6 +49,24 @@ langs_dict = {
         "加载初始设置",
         ("*", "Load factory settings of startup file and preferences"):
         "加载启动文件和偏好设置的初始设置",
+        ("Operator", "Delete All Collections and Objects"):
+        "删除所有集合和物体",
+        ("*", "Delete all collections and objects in current scene"):
+        "删除当前场景中的所有集合和物体",
+        ("*", "Delete all collections and objects in current scene successfully!"):
+        "成功删除当前场景中的所有集合和物体！",
+        ("Operator", "Add Video Progress Bar"):
+        "添加视频进度条",
+        ("*", "Add video progress bar depend on current scene settings"):
+        "根据当前场景设置，添加视频进度条",
+        ("*", "video progress bar bottom mask"):
+        "视频进度条底遮罩",
+        ("*", "video progress bar roll mask"):
+        "视频进度条滚动遮罩",
+        ("*", "video progress bar mask"):
+        "视频进度条遮罩",
+        ("*", "Add video progress bar successfully!"):
+        "成功添加视频进度条！",
 
         # properties.py
         ("*", "Translate New Data-Block's Name"):

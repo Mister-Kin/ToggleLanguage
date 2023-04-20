@@ -341,6 +341,103 @@ class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
         return context.window_manager.invoke_confirm(self, event)
 
 
+# TODO：可调参数，弹出窗口，待完善开发
+# TODO：首次完成添加视频进度条后，弹出可调参数窗口
+# TODO：旁边按钮添加一个调出控制窗口的按钮
+# class TOGGLE_LANGUAGE_OT_adjust_video_progress_bar(Operator):
+#     bl_idname = "toggle_language.add_video_progress_bar"
+#     bl_label = ""
+
+#     def execute(self, context):
+
+#         return {"FINISHED"}
+
+
+class TOGGLE_LANGUAGE_OT_add_video_progress_bar(Operator):
+    bl_idname = "toggle_language.add_video_progress_bar"
+    bl_label = "Add Video Progress Bar"
+    bl_description = "Add video progress bar depend on current scene settings"
+
+    def execute(self, context):
+        scene = context.scene
+        sequence_editor = scene.sequence_editor
+        sequences = sequence_editor.sequences
+
+        # 如果当前正在展开编辑meta片段就退出编辑，合闭meta片段元素，避免影响后续的选择创建meta片段
+        # meta_stack[-1]倒数第一个元素就是当前展开编辑的meta片段
+        if len(sequence_editor.meta_stack) > 0:
+            bpy.ops.sequencer.meta_toggle()
+
+        # 获取vse中没有片段最顶部的频道数字
+        top_empty_channel_number = 0
+        strips = sequence_editor.sequences_all
+        for strip in strips:
+            # 剔除meta子片段
+            if strip.parent_meta() == None:
+                if strip.channel > top_empty_channel_number:
+                    top_empty_channel_number = strip.channel
+
+        # 获取当前场景的设置
+        start_frame = scene.frame_start
+        end_frame = scene.frame_end
+
+        if scene.toggle_language_settings.translate_new_dataname == False:
+            name_text_bottom = "video progress bar bottom mask"
+            name_text_roll = "video progress bar roll mask"
+            name_text_meta = "video progress bar mask"
+        else:
+            name_text_bottom = translations.pgettext(
+                "video progress bar bottom mask")
+            name_text_roll = translations.pgettext(
+                "video progress bar roll mask")
+            name_text_meta = translations.pgettext("video progress bar mask")
+        bottom_effect = sequences.new_effect(
+            name=name_text_bottom,
+            type="COLOR",
+            channel=top_empty_channel_number + 1,
+            frame_start=start_frame,
+            frame_end=end_frame,
+        )
+        roll_effect = sequences.new_effect(
+            name=name_text_roll,
+            type="COLOR",
+            channel=top_empty_channel_number + 2,
+            frame_start=start_frame,
+            frame_end=end_frame,
+        )
+
+        # 设置子进度条颜色
+        bottom_effect.color = (0.45, 0.45, 0.45)
+        roll_effect.color = (0.255, 0.255, 0.255)
+
+        # 设置滚动遮罩层的关键帧动画
+        date_path = "offset_x"
+        roll_effect.transform.keyframe_insert(date_path, frame=start_frame)
+        roll_effect.transform.offset_x = scene.render.resolution_x
+        roll_effect.transform.keyframe_insert(date_path, frame=end_frame)
+
+        bpy.ops.sequencer.select_all(action='DESELECT')
+        effect_list = [bottom_effect, roll_effect]
+        for effect in effect_list:
+            effect.select = True
+        bpy.ops.sequencer.meta_make()
+        active_strip = sequence_editor.active_strip
+        active_strip.name = name_text_meta
+        active_strip.channel = top_empty_channel_number + 1
+        # 裁切meta片段和设置透明度
+        crop_value = scene.render.resolution_y - 44
+        blend_alpha_value = 0.9
+        active_strip.crop.min_y = crop_value
+        active_strip.blend_alpha = blend_alpha_value
+        active_strip.select = False
+
+        # 强制刷新vse
+        bpy.ops.sequencer.refresh_all()
+
+        self.report({"INFO"}, "Add video progress bar successfully!")
+        return {"FINISHED"}
+
+
 classes = (
     TOGGLE_LANGUAGE_OT_toggle_language,
     TOGGLE_LANGUAGE_OT_use_default_hint_scheme,
@@ -348,6 +445,7 @@ classes = (
     TOGGLE_LANGUAGE_OT_load_my_settings,
     TOGGLE_LANGUAGE_OT_load_factory_settings,
     TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects,
+    TOGGLE_LANGUAGE_OT_add_video_progress_bar,
 )
 
 
