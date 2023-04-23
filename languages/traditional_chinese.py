@@ -6,7 +6,7 @@ langs_dict = {
         ("*", "One click to toggle UI between two languages"):
         "在兩種語言中一鍵切換界面語言",
         ("*", "Topbar Menu"):
-        "頂部標題欄",
+        "頂部菜單欄",
 
         # ui.py
         ("*", "Settings"):
