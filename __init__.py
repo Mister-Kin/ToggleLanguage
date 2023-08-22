@@ -22,7 +22,7 @@ bl_info = {
     "name": "Toggle Language",
     "description": "One click to toggle UI between two languages",
     "author": "Mr. Kin",
-    "version": (1, 5),
+    "version": (1, 5, 1),
     "blender": (2, 83, 0),
     "location": "Topbar Menu",
     "category": "Interface",

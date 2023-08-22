@@ -259,7 +259,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             scene.cycles.use_denoising = True
             scene.cycles.use_preview_denoising = True
             scene.cycles.preview_denoising_input_passes = "RGB_ALBEDO_NORMAL"
-            if optix_exist:
+            # gpu_exist为false时，根据短路求值原理，不会执行后面的语句。因此即使optix_exist未赋值时直接引用，也不会报错“UnboundLocalError: local variable 'optix_exist' referenced before assignment”
+            if gpu_exist and optix_exist:
                 scene.cycles.denoiser = "OPTIX"
                 scene.cycles.preview_denoiser = "OPTIX"
             elif blender_v290:
@@ -272,7 +273,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 
         else:
             context.view_layer.cycles.use_denoising = True
-            if optix_exist:
+            if gpu_exist and optix_exist:
                 context.view_layer.cycles.use_optix_denoising = True
                 context.view_layer.cycles.denoising_optix_input_passes = "RGB_ALBEDO_NORMAL"
                 scene.cycles.preview_denoising = "OPTIX"
