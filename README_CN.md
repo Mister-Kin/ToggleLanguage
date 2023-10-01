@@ -32,10 +32,10 @@
 ## 使用方法
 [跳转到文档页面][]
 
-[离线文档 - PDF][]（访问密码：docs）
+[离线文档 - PDF][]
 
 [跳转到文档页面]: https://mister-kin.github.io/works/software-works/toggle-language/
-[离线文档 - PDF]: https://wwr.lanzoui.com/b02c7lamf
+[离线文档 - PDF]: https://github.com/Mister-Kin/OpenDocs/releases/download/latex2pdf/toggle_language.pdf
 
 ## 作者
 **切换语言** © Mr. Kin，所有文件均采用 [GNU GPL v3.0][] 许可协议进行发布。

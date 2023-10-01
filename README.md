@@ -32,10 +32,10 @@ For more detailed features introduction, please see [User's Manual](https://mist
 ## Usage
 [Jump to Documentation Page][]
 
-[Offline Documentation - PDF][] (Access Code: docs)
+[Offline Documentation - PDF][]
 
 [Jump to Documentation Page]: https://mister-kin.github.io/works/software-works/toggle-language/
-[Offline Documentation - PDF]: https://wwr.lanzoui.com/b02c7lamf
+[Offline Documentation - PDF]: https://github.com/Mister-Kin/OpenDocs/releases/download/latex2pdf/toggle_language.pdf
 
 ## Author
 **ToggleLanguage** © Mr. Kin, all files released under the [GNU GPL v3.0][] license.
