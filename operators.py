@@ -105,13 +105,19 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             blender_v290 = True
         else:
             blender_v290 = False
-        if userpref.version[0] == 3:
-            blender_v3 = True
+        if userpref.version[0] >= 3:
+            blender_v3_plus = True
+            if (
+                userpref.version[0] == 3 and userpref.version[1] >= 4
+            ) or userpref.version[0] >= 4:
+                blender_v34_plus = True
+            else:
+                blender_v34_plus = False
         else:
-            blender_v3 = False
+            blender_v3_plus = False
 
         # v2.93 及之后版本的文件命名有所变化。
-        if userpref.version[0] >= 3 or userpref.version[1] == 93:
+        if blender_v3_plus or userpref.version[1] == 93:
             dict_blender_theme_name = {
                 "blender_dark": "Blender_Dark.xml",
                 "blender_light": "Blender_Light.xml",
@@ -139,7 +145,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             blender_keyconfig_name = "blender"
 
         userpref.view.ui_scale = 1.3
-        if blender_v290 or blender_v3:
+        if blender_v290 or blender_v3_plus:
             userpref.view.show_statusbar_stats = True
             userpref.view.show_statusbar_memory = True
             if userpref.view.is_property_readonly("show_statusbar_vram"):
@@ -195,7 +201,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         # v3.0 及之后版本用的是 cyclesX，其中的 Auto Tiles 功能是为了减少内存占用，
         # 即渲染 tile 大小的图像数据并缓存进硬盘，渲染结束时再合并在一起。
         # 与老版的 cycles 渲染调度逻辑不一样，因此 auto_tile_size 插件在 v3.0 中被移除。
-        if blender_v3:
+        if blender_v3_plus:
             # TODO：根据当前可用内存自动设置合适大小（仍需查询资料或者查看源码确认显存是否会受影响）
             scene.cycles.tile_size = 4096  # 设置平铺大小为4096px，避免渲染4k图像时导致分割
         else:
@@ -224,7 +230,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         # cycles渲染引擎设置
         scene.render.engine = "CYCLES"
         cpref = userpref.addons["cycles"].preferences
-        if blender_v3:
+        if blender_v3_plus:
             cpref.refresh_devices()  # 刷新设备。
         else:
             cpref.get_devices()
@@ -253,7 +259,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             except TypeError:
                 pass
         if gpu_exist:
-            if blender_v3:
+            if blender_v3_plus:
                 cpref.refresh_devices()  # 刷新设备。
             else:
                 cpref.get_devices()
@@ -266,8 +272,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             scene.cycles.device = "GPU"
         else:
             pass
-        if blender_v3:
-            if not gpu_exist and userpref.version[0] >= 4:
+        if blender_v3_plus:
+            if not gpu_exist and blender_v34_plus:
                 scene.cycles.use_guiding = True
         else:
             scene.cycles.use_adaptive_sampling = True
@@ -275,7 +281,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             scene.ats_settings.gpu_choice = "128"  # render_auto_tile_size插件的tiles大小设置
 
         # 渲染降噪设置
-        if blender_v290 or blender_v3:
+        if blender_v290 or blender_v3_plus:
             scene.cycles.use_denoising = True
             scene.cycles.use_preview_denoising = True
             scene.cycles.preview_denoising_input_passes = "RGB_ALBEDO_NORMAL"
