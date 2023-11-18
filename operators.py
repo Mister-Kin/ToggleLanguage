@@ -23,17 +23,30 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
         addonpref = userpref.addons["ToggleLanguage"].preferences
         lang = translations.locale
 
-        if addonpref.first_lang != addonpref.second_lang:
-            if lang == addonpref.first_lang:
-                userpref.view.language = addonpref.second_lang
+        if userpref.version[0] >= 4:
+            if addonpref.first_lang != addonpref.second_lang:
+                if lang == addonpref.first_lang:
+                    userpref.view.language = addonpref.second_lang
+                else:
+                    userpref.view.language = addonpref.first_lang
             else:
-                userpref.view.language = addonpref.first_lang
+                message_box(
+                    title="Fail to Toggle Language",
+                    message="Two languages are same! Please select two different languages for addon.",
+                    icon="ERROR",
+                )
         else:
-            message_box(
-                title="Fail to Toggle Language",
-                message="Two languages are same! Please select two different languages for addon.",
-                icon="ERROR",
-            )
+            if addonpref.first_lang_before_v4 != addonpref.second_lang_before_v4:
+                if lang == addonpref.first_lang_before_v4:
+                    userpref.view.language = addonpref.second_lang_before_v4
+                else:
+                    userpref.view.language = addonpref.first_lang_before_v4
+            else:
+                message_box(
+                    title="Fail to Toggle Language",
+                    message="Two languages are same! Please select two different languages for addon.",
+                    icon="ERROR",
+                )
 
         # 检测并修正 use_translate_new_dataname 选项值。
         scene = context.scene

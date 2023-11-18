@@ -4,6 +4,27 @@ from bpy.props import BoolProperty, EnumProperty
 from bpy.app import translations
 
 enum_languages = (
+    ("zh_HANS", "Simplified Chinese (简体中文)", "zh_HANS", 1),
+    ("zh_HANT", "Traditional Chinese (繁體中文)", "zh_HANT", 2),
+    ("en_US", "English (English)", "en_US", 3),
+    ("ca_AD", "Catalan (Català)", "ca_AD", 4),
+    ("es", "Spanish (Español)", "es", 5),
+    ("fr_FR", "French (Français)", "fr_FR", 6),
+    ("ja_JP", "Japanese (日本語)", "ja_JP", 7),
+    ("sk_SK", "Slovak (Slovenčina)", "sk_SK", 8),
+    ("cs_CZ", "Czech (Čeština)", "cs_CZ", 9),
+    ("de_DE", "German (Deutsch)", "de_DE", 10),
+    ("it_IT", "Italian (Italiano)", "it_IT", 11),
+    ("ka", "Georgian (ქართული)", "ka", 12),
+    ("ko_KR", "Korean (한국어)", "ko_KR", 13),
+    ("pt_BR", "Brazilian Portuguese (Português do Brasil)", "pt_BR", 14),
+    ("pt_PT", "Portuguese (Português)", "pt_PT", 15),
+    ("ru_RU", "Russian (Русский)", "ru_RU", 16),
+    ("uk_UA", "Ukrainian (Українська)", "uk_UA", 17),
+    ("vi_VN", "Vietnamese (Tiếng Việt)", "vi_VN", 18),
+)
+
+enum_languages_before_v4 = (
     ("zh_CN", "Simplified Chinese (简体中文)", "zh_CN", 1),
     ("zh_TW", "Traditional Chinese (繁體中文)", "zh_TW", 2),
     ("en_US", "English (English)", "en_US", 3),
@@ -62,8 +83,15 @@ class ToggleLanguagePreferences(AddonPreferences):
     first_lang: EnumProperty(
         name="First Language",
         description="First language for toggling",
-        default="zh_CN",
+        default="zh_HANS",
         items=enum_languages,
+    )
+
+    first_lang_before_v4: EnumProperty(
+        name="First Language",
+        description="First language for toggling",
+        default="zh_CN",
+        items=enum_languages_before_v4,
     )
 
     second_lang: EnumProperty(
@@ -71,6 +99,13 @@ class ToggleLanguagePreferences(AddonPreferences):
         description="Second language for toggling",
         default="en_US",
         items=enum_languages,
+    )
+
+    second_lang_before_v4: EnumProperty(
+        name="Second Language",
+        description="Second language for toggling",
+        default="en_US",
+        items=enum_languages_before_v4,
     )
 
     preset_theme: EnumProperty(
@@ -106,6 +141,7 @@ class ToggleLanguagePreferences(AddonPreferences):
 
     def draw(self, context):
         layout = self.layout
+        userpref = context.preferences
 
         box = layout.box()
         box.label(
@@ -113,9 +149,14 @@ class ToggleLanguagePreferences(AddonPreferences):
             icon="SETTINGS",
         )
         row = box.row(align=True)
-        row.prop(self, "first_lang")
-        row.separator()
-        row.prop(self, "second_lang")
+        if userpref.version[0] >= 4:
+            row.prop(self, "first_lang")
+            row.separator()
+            row.prop(self, "second_lang")
+        else:
+            row.prop(self, "first_lang_before_v4")
+            row.separator()
+            row.prop(self, "second_lang_before_v4")
 
         box = layout.box()
         box.label(
