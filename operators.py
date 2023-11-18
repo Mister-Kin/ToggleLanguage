@@ -5,13 +5,12 @@ from multiprocessing import cpu_count
 
 
 def message_box(title="Message Box", message="", icon="INFO"):
-
     def draw(self, context):
         self.layout.label(text=message)
 
-    bpy.context.window_manager.popup_menu(draw,
-                                          title=translations.pgettext(title),
-                                          icon=icon)
+    bpy.context.window_manager.popup_menu(
+        draw, title=translations.pgettext(title), icon=icon
+    )
 
 
 class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
@@ -32,16 +31,21 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
         else:
             message_box(
                 title="Fail to Toggle Language",
-                message=
-                "Two languages are same! Please select two different languages for addon.",
-                icon="ERROR")
+                message="Two languages are same! Please select two different languages for addon.",
+                icon="ERROR",
+            )
 
         # 检测并修正 use_translate_new_dataname 选项值。
         scene = context.scene
         lang = translations.locale
         if lang != "en_US":
-            if userpref.view.use_translate_new_dataname != scene.toggle_language_settings.translate_new_dataname:
-                userpref.view.use_translate_new_dataname = scene.toggle_language_settings.translate_new_dataname
+            if (
+                userpref.view.use_translate_new_dataname
+                != scene.toggle_language_settings.translate_new_dataname
+            ):
+                userpref.view.use_translate_new_dataname = (
+                    scene.toggle_language_settings.translate_new_dataname
+                )
 
         return {"FINISHED"}
 
@@ -104,7 +108,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                 "modo": "Modo.xml",
                 "print_friendly": "Print_Friendly.xml",
                 "white": "White.xml",
-                "xsi": "XSI.xml"
+                "xsi": "XSI.xml",
             }
             blender_keyconfig_name = "Blender"
         else:
@@ -117,7 +121,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                 "modo": "modo.xml",
                 "print_friendly": "print_friendly.xml",
                 "white": "white.xml",
-                "xsi": "xsi.xml"
+                "xsi": "xsi.xml",
             }
             blender_keyconfig_name = "blender"
 
@@ -141,30 +145,34 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             "modo": "addons/",
             "print_friendly": "addons/",
             "white": "addons/",
-            "xsi": "addons/"
+            "xsi": "addons/",
         }
 
         if addonpref.disable_theme_setting == False:
             user_platform = bpy.app.build_platform
             execution_path = bpy.app.binary_path
-            theme_path = "{First_Main_Number}.{Second_Main_Number}/scripts/" + blender_theme_path_variable[
-                addonpref.
-                preset_theme] + "presets/interface_theme/" + dict_blender_theme_name[
-                    addonpref.preset_theme]
+            theme_path = (
+                "{First_Main_Number}.{Second_Main_Number}/scripts/"
+                + blender_theme_path_variable[addonpref.preset_theme]
+                + "presets/interface_theme/"
+                + dict_blender_theme_name[addonpref.preset_theme]
+            )
             theme_path = theme_path.format(
                 First_Main_Number=userpref.version[0],
-                Second_Main_Number=userpref.version[1])
+                Second_Main_Number=userpref.version[1],
+            )
             # b"Windows" b"Darwin" b"Linux"
             if user_platform == b"Windows":
                 theme_path = execution_path.replace("blender.exe", theme_path)
             elif user_platform == b"Darwin":
-                theme_path = execution_path.replace("MacOS/Blender",
-                                                    "Resources/" + theme_path)
+                theme_path = execution_path.replace(
+                    "MacOS/Blender", "Resources/" + theme_path
+                )
             else:
                 theme_path = execution_path[:-7] + theme_path
             bpy.ops.script.execute_preset(
-                filepath=theme_path,
-                menu_idname="USERPREF_MT_interface_theme_presets")
+                filepath=theme_path, menu_idname="USERPREF_MT_interface_theme_presets"
+            )
         else:
             pass
 
@@ -183,8 +191,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         userpref.inputs.use_rotate_around_active = True
         userpref.inputs.use_zoom_to_mouse = True
 
-        kcpref = context.window_manager.keyconfigs[
-            blender_keyconfig_name].preferences
+        kcpref = context.window_manager.keyconfigs[blender_keyconfig_name].preferences
         kcpref.use_pie_click_drag = True
         kcpref.use_v3d_shade_ex_pie = True
 
@@ -275,7 +282,9 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             context.view_layer.cycles.use_denoising = True
             if gpu_exist and optix_exist:
                 context.view_layer.cycles.use_optix_denoising = True
-                context.view_layer.cycles.denoising_optix_input_passes = "RGB_ALBEDO_NORMAL"
+                context.view_layer.cycles.denoising_optix_input_passes = (
+                    "RGB_ALBEDO_NORMAL"
+                )
                 scene.cycles.preview_denoising = "OPTIX"
 
         # cycles引擎采样设置
@@ -334,9 +343,10 @@ class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
         # remove会一同删除项目本身及其子项，但object的data还存储在blend文件中，可通过垃圾回收orphans_purge清除
         bpy.ops.outliner.orphans_purge(do_recursive=True)
 
-        self.report({
-            "INFO"
-        }, "Delete all collections and objects in current scene successfully!")
+        self.report(
+            {"INFO"},
+            "Delete all collections and objects in current scene successfully!",
+        )
         return {"FINISHED"}
 
     def invoke(self, context, event):
@@ -388,10 +398,8 @@ class TOGGLE_LANGUAGE_OT_add_video_progress_bar(Operator):
             name_text_roll = "video progress bar roll mask"
             name_text_meta = "video progress bar mask"
         else:
-            name_text_bottom = translations.pgettext(
-                "video progress bar bottom mask")
-            name_text_roll = translations.pgettext(
-                "video progress bar roll mask")
+            name_text_bottom = translations.pgettext("video progress bar bottom mask")
+            name_text_roll = translations.pgettext("video progress bar roll mask")
             name_text_meta = translations.pgettext("video progress bar mask")
         bottom_effect = sequences.new_effect(
             name=name_text_bottom,
@@ -418,7 +426,7 @@ class TOGGLE_LANGUAGE_OT_add_video_progress_bar(Operator):
         roll_effect.transform.offset_x = scene.render.resolution_x
         roll_effect.transform.keyframe_insert(date_path, frame=end_frame)
 
-        bpy.ops.sequencer.select_all(action='DESELECT')
+        bpy.ops.sequencer.select_all(action="DESELECT")
         effect_list = [bottom_effect, roll_effect]
         for effect in effect_list:
             effect.select = True
@@ -453,11 +461,13 @@ classes = (
 
 def register():
     from bpy.utils import register_class
+
     for cls in classes:
         register_class(cls)
 
 
 def unregister():
     from bpy.utils import unregister_class
+
     for cls in classes:
         unregister_class(cls)

@@ -26,13 +26,12 @@ class TOGGLE_LANGUAGE_MT_settings(Menu):
 
         layout = self.layout
         col = layout.column(align=True)
-        col.menu("TOGGLE_LANGUAGE_MT_hint_scheme",
-                 icon="TEXT",
-                 text=hint_scheme_menu_name)
+        col.menu(
+            "TOGGLE_LANGUAGE_MT_hint_scheme", icon="TEXT", text=hint_scheme_menu_name
+        )
         col.prop(scene.toggle_language_settings, "translate_new_dataname")
         col.operator("toggle_language.load_my_settings", icon="SETTINGS")
-        col.operator("toggle_language.load_factory_settings",
-                     icon="TOOL_SETTINGS")
+        col.operator("toggle_language.load_factory_settings", icon="TOOL_SETTINGS")
 
 
 class TOGGLE_LANGUAGE_MT_hint_scheme(Menu):
@@ -53,8 +52,10 @@ class TOGGLE_LANGUAGE_MT_utilities(Menu):
     def draw(self, context):
         layout = self.layout
         col = layout.column(align=True)
-        col.operator("toggle_language.delete_all_collections_and_objects",
-                     icon="OUTLINER_COLLECTION")
+        col.operator(
+            "toggle_language.delete_all_collections_and_objects",
+            icon="OUTLINER_COLLECTION",
+        )
         col.operator("toggle_language.add_video_progress_bar", icon="TOPBAR")
 
 
@@ -67,6 +68,7 @@ classes = (
 
 def register():
     from bpy.utils import register_class
+
     for cls in classes:
         register_class(cls)
 
@@ -75,6 +77,7 @@ def register():
 
 def unregister():
     from bpy.utils import unregister_class
+
     for cls in classes:
         unregister_class(cls)
 

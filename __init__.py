@@ -26,8 +26,7 @@ bl_info = {
     "blender": (2, 83, 0),
     "location": "Topbar Menu",
     "category": "Interface",
-    "doc_url":
-    "https://mister-kin.github.io/works/software-works/toggle-language/",
+    "doc_url": "https://mister-kin.github.io/works/software-works/toggle-language/",
     "tracker_url": "https://mister-kin.github.io/about/#联系方式",
 }
 
@@ -42,6 +41,7 @@ _modules = [
 # support reloading sub-modules (refer to scripts/startup/bl_ui/__init__.py)
 if "bpy" in locals():
     from importlib import reload
+
     _modules_loaded[:] = [reload(val) for val in _modules_loaded]
     del reload
 

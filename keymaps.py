@@ -7,17 +7,15 @@ def register_keymaps():
     wm = bpy.context.window_manager
 
     km = wm.keyconfigs.addon.keymaps.new(name="Window")
-    kmi = km.keymap_items.new(idname="toggle_language.toggle_language",
-                              type="F5",
-                              value="PRESS")
+    kmi = km.keymap_items.new(
+        idname="toggle_language.toggle_language", type="F5", value="PRESS"
+    )
     addon_keymaps.append((km, kmi))
 
     km = wm.keyconfigs.addon.keymaps.new(name="Window")
-    kmi = km.keymap_items.new(idname="screen.userpref_show",
-                              type="U",
-                              value="PRESS",
-                              ctrl=True,
-                              alt=True)
+    kmi = km.keymap_items.new(
+        idname="screen.userpref_show", type="U", value="PRESS", ctrl=True, alt=True
+    )
     addon_keymaps.append((km, kmi))
 
 

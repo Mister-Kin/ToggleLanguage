@@ -41,7 +41,9 @@ def update_translate_new_dataname_state(self, context):
     scene = context.scene
     lang = translations.locale
     if lang != "en_US":
-        userpref.view.use_translate_new_dataname = scene.toggle_language_settings.translate_new_dataname
+        userpref.view.use_translate_new_dataname = (
+            scene.toggle_language_settings.translate_new_dataname
+        )
 
 
 class ToggleLanguageSettings(PropertyGroup):
@@ -92,8 +94,7 @@ class ToggleLanguagePreferences(AddonPreferences):
 
     disable_saving_startup_file: BoolProperty(
         name="Disable Saving Startup File",
-        description=
-        "Disable saving startup file when applying feature Load My Settings",
+        description="Disable saving startup file when applying feature Load My Settings",
         default=False,
     )
 
@@ -122,8 +123,7 @@ class ToggleLanguagePreferences(AddonPreferences):
             icon="TOOL_SETTINGS",
         )
         box.label(
-            text=
-            "Please configure following settings before applying Load My Settings feature.",
+            text="Please configure following settings before applying Load My Settings feature.",
         )
         row = box.row(align=True)
         row.prop(self, "disable_paths_setting")
@@ -147,15 +147,18 @@ classes = (
 
 def register():
     from bpy.utils import register_class
+
     for cls in classes:
         register_class(cls)
 
     bpy.types.Scene.toggle_language_settings = bpy.props.PointerProperty(
-        type=ToggleLanguageSettings)
+        type=ToggleLanguageSettings
+    )
 
 
 def unregister():
     from bpy.utils import unregister_class
+
     for cls in classes:
         unregister_class(cls)
 
