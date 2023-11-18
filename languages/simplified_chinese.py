@@ -1,5 +1,5 @@
 langs_dict = {
-    "zh_CN": {
+    "zh_HANS": {
         # __init.py
         ("*", "Toggle Language"): "切换语言",
         ("*", "One click to toggle UI between two languages"): "在两种语言中一键切换界面语言",
@@ -95,3 +95,5 @@ langs_dict = {
         ("*", "XSI (Light Theme)"): "XSI（浅色主题）",
     }
 }
+
+langs_dict["zh_CN"] = langs_dict["zh_HANS"]
