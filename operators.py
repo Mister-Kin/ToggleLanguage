@@ -111,6 +111,12 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                 userpref.version[0] == 3 and userpref.version[1] >= 4
             ) or userpref.version[0] >= 4:
                 blender_v34_plus = True
+                if (
+                    userpref.version[0] == 4 and userpref.version[1] >= 1
+                ) or userpref.version[0] >= 5:
+                    blender_v41_plus = True
+                else:
+                    blender_v41_plus = False
             else:
                 blender_v34_plus = False
         else:
@@ -153,7 +159,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             else:
                 userpref.view.show_statusbar_vram = True
         else:
-            userpref.system.audio_device = "SDL"  # v2.83 及之前版本未引入系统原生的 API，用 SDL 替代。
+            # v2.83 及之前版本未引入系统原生的 API，用 SDL 替代
+            userpref.system.audio_device = "SDL"
 
         blender_theme_path_variable = {
             "blender_dark": "",
@@ -203,7 +210,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         # 与老版的 cycles 渲染调度逻辑不一样，因此 auto_tile_size 插件在 v3.0 中被移除。
         if blender_v3_plus:
             # TODO：根据当前可用内存自动设置合适大小（仍需查询资料或者查看源码确认显存是否会受影响）
-            scene.cycles.tile_size = 4096  # 设置平铺大小为4096px，避免渲染4k图像时导致分割
+            # 设置平铺大小为4096px，避免渲染4k图像时导致分割
+            scene.cycles.tile_size = 4096
         else:
             bpy.ops.preferences.addon_enable(module="render_auto_tile_size")
 
@@ -268,7 +276,6 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                     device.use = addonpref.use_cpu_in_gpu_render_setting
                 else:
                     device.use = True
-
             scene.cycles.device = "GPU"
         else:
             pass
@@ -278,7 +285,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         else:
             scene.cycles.use_adaptive_sampling = True
             scene.cycles.adaptive_threshold = 0.1
-            scene.ats_settings.gpu_choice = "128"  # render_auto_tile_size插件的tiles大小设置
+            # render_auto_tile_size插件的tiles大小设置
+            scene.ats_settings.gpu_choice = "128"
 
         # 渲染降噪设置
         if blender_v290 or blender_v3_plus:
@@ -287,8 +295,22 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             scene.cycles.preview_denoising_input_passes = "RGB_ALBEDO_NORMAL"
             # gpu_exist为false时，根据短路求值原理，不会执行后面的语句。因此即使optix_exist未赋值时直接引用，也不会报错“UnboundLocalError: local variable 'optix_exist' referenced before assignment”
             if gpu_exist and optix_exist:
-                scene.cycles.denoiser = "OPTIX"
-                scene.cycles.preview_denoiser = "OPTIX"
+                if blender_v41_plus:
+                    scene.cycles.denoiser = "OPENIMAGEDENOISE"
+                    scene.cycles.denoising_use_gpu = True
+                    scene.cycles.preview_denoiser = "OPENIMAGEDENOISE"
+                    scene.cycles.preview_denoising_use_gpu = True
+                    scene.cycles.preview_denoising_prefilter = "ACCURATE"
+                else:
+                    scene.cycles.denoiser = "OPTIX"
+                    scene.cycles.preview_denoiser = "OPTIX"
+            elif gpu_exist and not optix_exist:
+                scene.cycles.denoiser = "OPENIMAGEDENOISE"
+                scene.cycles.preview_denoiser = "OPENIMAGEDENOISE"
+                scene.cycles.preview_denoising_prefilter = "ACCURATE"
+                if blender_v41_plus:
+                    scene.cycles.denoising_use_gpu = True
+                    scene.cycles.preview_denoising_use_gpu = True
             elif blender_v290:
                 scene.cycles.denoiser = "NLM"
                 scene.cycles.preview_denoiser = "OPENIMAGEDENOISE"
@@ -296,7 +318,6 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                 scene.cycles.denoiser = "OPENIMAGEDENOISE"
                 scene.cycles.preview_denoiser = "OPENIMAGEDENOISE"
                 scene.cycles.preview_denoising_prefilter = "ACCURATE"
-
         else:
             context.view_layer.cycles.use_denoising = True
             if gpu_exist and optix_exist:
