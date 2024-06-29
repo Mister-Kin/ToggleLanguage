@@ -20,7 +20,7 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
 
     def execute(self, context):
         userpref = context.preferences
-        addonpref = userpref.addons["ToggleLanguage"].preferences
+        addonpref = userpref.addons[__package__].preferences
         lang = translations.locale
 
         if userpref.version[0] >= 4:
@@ -99,7 +99,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
     def execute(self, context):
         scene = context.scene
         userpref = context.preferences
-        addonpref = userpref.addons["ToggleLanguage"].preferences
+        addonpref = userpref.addons[__package__].preferences
 
         if userpref.version[1] >= 90:
             blender_v290 = True
@@ -115,6 +115,14 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                     userpref.version[0] == 4 and userpref.version[1] >= 1
                 ) or userpref.version[0] >= 5:
                     blender_v41_plus = True
+                    if (
+                        userpref.version[0] == 4
+                        and userpref.version[1] >= 2
+                        or userpref.version[0] >= 5
+                    ):
+                        blender_v42_plus = True
+                    else:
+                        blender_v42_plus = False
                 else:
                     blender_v41_plus = False
             else:
@@ -123,7 +131,20 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
             blender_v3_plus = False
 
         # v2.93 及之后版本的文件命名有所变化。
-        if blender_v3_plus or userpref.version[1] == 93:
+        if blender_v42_plus:
+            dict_blender_theme_name = {
+                "blender_dark": "Blender_Dark.xml",
+                "blender_light": "Blender_Light.xml",
+                "deep_grey": "theme_deep_grey",
+                "maya": "theme_maya",
+                "minimal_dark": "theme_minimal_dark",
+                "modo": "theme_modo",
+                "print_friendly": "theme_print_friendly",
+                "white": "theme_white",
+                "xsi": "theme_xsi",
+            }
+            blender_keyconfig_name = "Blender"
+        elif blender_v3_plus or userpref.version[1] == 93:
             dict_blender_theme_name = {
                 "blender_dark": "Blender_Dark.xml",
                 "blender_light": "Blender_Light.xml",
@@ -175,36 +196,50 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         }
 
         if addonpref.disable_theme_setting == False:
-            user_platform = bpy.app.build_platform
-            execution_path = bpy.app.binary_path
-            theme_path = (
-                "{First_Main_Number}.{Second_Main_Number}/scripts/"
-                + blender_theme_path_variable[addonpref.preset_theme]
-                + "presets/interface_theme/"
-                + dict_blender_theme_name[addonpref.preset_theme]
-            )
-            theme_path = theme_path.format(
-                First_Main_Number=userpref.version[0],
-                Second_Main_Number=userpref.version[1],
-            )
-            # b"Windows" b"Darwin" b"Linux"
-            if user_platform == b"Windows":
-                theme_path = execution_path.replace("blender.exe", theme_path)
-            elif user_platform == b"Darwin":
-                theme_path = execution_path.replace(
-                    "MacOS/Blender", "Resources/" + theme_path
+            if (
+                blender_v42_plus == True
+                and addonpref.preset_theme != "blender_dark"
+                and addonpref.preset_theme != "blender_light"
+            ):
+                bpy.ops.extensions.package_install(
+                    repo_index=0, pkg_id=dict_blender_theme_name[addonpref.preset_theme]
                 )
             else:
-                theme_path = execution_path[:-7] + theme_path
-            bpy.ops.script.execute_preset(
-                filepath=theme_path, menu_idname="USERPREF_MT_interface_theme_presets"
-            )
+                user_platform = bpy.app.build_platform
+                execution_path = bpy.app.binary_path
+                theme_path = (
+                    "{First_Main_Number}.{Second_Main_Number}/scripts/"
+                    + blender_theme_path_variable[addonpref.preset_theme]
+                    + "presets/interface_theme/"
+                    + dict_blender_theme_name[addonpref.preset_theme]
+                )
+                theme_path = theme_path.format(
+                    First_Main_Number=userpref.version[0],
+                    Second_Main_Number=userpref.version[1],
+                )
+                # b"Windows" b"Darwin" b"Linux"
+                if user_platform == b"Windows":
+                    theme_path = execution_path.replace("blender.exe", theme_path)
+                elif user_platform == b"Darwin":
+                    theme_path = execution_path.replace(
+                        "MacOS/Blender", "Resources/" + theme_path
+                    )
+                else:
+                    theme_path = execution_path[:-7] + theme_path
+                bpy.ops.script.execute_preset(
+                    filepath=theme_path,
+                    menu_idname="USERPREF_MT_interface_theme_presets",
+                )
         else:
             pass
 
         bpy.ops.preferences.addon_enable(module="node_wrangler")
-        bpy.ops.preferences.addon_enable(module="object_fracture_cell")
-        bpy.ops.preferences.addon_enable(module="development_icon_get")
+        if blender_v42_plus:
+            bpy.ops.extensions.package_install(repo_index=0, pkg_id="cell_fracture")
+            bpy.ops.extensions.package_install(repo_index=0, pkg_id="icon_viewer")
+        else:
+            bpy.ops.preferences.addon_enable(module="object_fracture_cell")
+            bpy.ops.preferences.addon_enable(module="development_icon_get")
         # v3.0 及之后版本用的是 cyclesX，其中的 Auto Tiles 功能是为了减少内存占用，
         # 即渲染 tile 大小的图像数据并缓存进硬盘，渲染结束时再合并在一起。
         # 与老版的 cycles 渲染调度逻辑不一样，因此 auto_tile_size 插件在 v3.0 中被移除。

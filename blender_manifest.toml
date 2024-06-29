@@ -1,0 +1,11 @@
+schema_version = "1.0.0"
+id = "toggle_language"
+version = "1.6.1"
+name = "Toggle Language"
+tagline = "One click to toggle UI between two languages"
+maintainer = "Mr. Kin <im.misterkin@gmail.com>"
+type = "add-on"
+website = "https://mister-kin.github.io/works/software-works/toggle-language/"
+tags = ["User Interface"]
+blender_version_min = "4.2.0"
+license = ["SPDX:GPL-3.0-or-later"]
