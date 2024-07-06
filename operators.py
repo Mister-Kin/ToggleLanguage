@@ -201,6 +201,8 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
                 and addonpref.preset_theme != "blender_dark"
                 and addonpref.preset_theme != "blender_light"
             ):
+                bpy.ops.extensions.userpref_allow_online()
+                bpy.ops.extensions.repo_sync_all()
                 bpy.ops.extensions.package_install(
                     repo_index=0, pkg_id=dict_blender_theme_name[addonpref.preset_theme]
                 )
