@@ -261,7 +261,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 
         userpref.filepaths.use_file_compression = True
         if addonpref.disable_paths_setting == False:
-            userpref.filepaths.use_auto_save_temporary_files = False
+            # userpref.filepaths.use_auto_save_temporary_files = False
             userpref.filepaths.texture_directory = "H:/texture/"
             # userpref.filepaths.temporary_directory = "E:/temp/"
             # userpref.filepaths.render_cache_directory = "E:/temp/"
