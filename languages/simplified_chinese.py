@@ -11,7 +11,7 @@ langs_dict = {
         ("*", "Hint Scheme Menu"): "提示方案菜单",
         # operators.py
         ("*", "Message Box"): "消息框",
-        ("Operator", "Toggle"): "切换",
+        ("Operator", "Toggle"): "切换语言",
         ("*", "Click button to toggle language"): "点击按钮以切换语言",
         ("*", "Fail to Toggle Language"): "切换语言失败",
         (
@@ -72,7 +72,7 @@ langs_dict = {
             "*",
             "Please select two languages for addon to toggle UI language.",
         ): "请为插件选择两种语言以用于切换界面语言。",
-        ("*", "Some settings about Load My Settings feature."): "一些关于“加载我的设置”功能的设置。",
+        ("*", "Some settings for Load My Settings feature."): "一些关于“加载我的设置”功能的设置。",
         (
             "*",
             "Please configure following settings before applying Load My Settings feature.",

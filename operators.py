@@ -15,7 +15,7 @@ def message_box(title="Message Box", message="", icon="INFO"):
 
 class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
     bl_idname = "toggle_language.toggle_language"
-    bl_label = "Toggle"
+    bl_label = "Toggle Language"
     bl_description = "Click button to toggle language"
 
     def execute(self, context):

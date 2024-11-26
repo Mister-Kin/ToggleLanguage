@@ -160,7 +160,7 @@ class ToggleLanguagePreferences(AddonPreferences):
 
         box = layout.box()
         box.label(
-            text="Some settings about Load My Settings feature.",
+            text="Some settings for Load My Settings feature.",
             icon="TOOL_SETTINGS",
         )
         box.label(
