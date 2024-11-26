@@ -2,7 +2,10 @@ langs_dict = {
     "zh_HANT": {
         # __init.py
         ("*", "Toggle Language"): "切換語言",
-        ("*", "One click to toggle UI between two languages"): "在兩種語言中一鍵切換界面語言",
+        (
+            "*",
+            "One click to toggle UI between two languages",
+        ): "在兩種語言中一鍵切換界面語言",
         ("*", "Topbar Menu"): "頂部菜單欄",
         # ui.py
         ("*", "Settings"): "設定",
@@ -35,7 +38,10 @@ langs_dict = {
             "Load factory settings of startup file and preferences",
         ): "載入啓動文件和偏好設定的出廠設定",
         ("Operator", "Delete All Collections and Objects"): "刪除所有集合和物體",
-        ("*", "Delete all collections and objects in current scene"): "删除當前場景中的所有集合和物體",
+        (
+            "*",
+            "Delete all collections and objects in current scene",
+        ): "删除當前場景中的所有集合和物體",
         (
             "*",
             "Delete all collections and objects in current scene successfully!",
@@ -60,9 +66,15 @@ langs_dict = {
         ("*", "Second Language"): "第二種語言",
         ("*", "Second language for toggling"): "用於切換的第二種語言",
         ("*", "Disable Paths Setting"): "禁用路徑設定",
-        ("*", "Disable paths setting of Load My Settings feature"): "禁用“加載我的設定”功能的路徑設定",
+        (
+            "*",
+            "Disable paths setting of Load My Settings feature",
+        ): "禁用“加載我的設定”功能的路徑設定",
         ("*", "Disable Theme Setting"): "禁用主題設定",
-        ("*", "Disable theme setting of Load My Settings feature"): "禁用“加載我的設定”功能的主題設定",
+        (
+            "*",
+            "Disable theme setting of Load My Settings feature",
+        ): "禁用“加載我的設定”功能的主題設定",
         ("*", "Disable Saving Startup File"): "禁止儲存初始啓動檔案",
         (
             "*",
@@ -72,7 +84,10 @@ langs_dict = {
             "*",
             "Please select two languages for addon to toggle UI language.",
         ): "請爲插件選擇兩種語言以用於切換界面語言。",
-        ("*", "Some settings for Load My Settings feature."): "一些關於“加載我的設定”功能的設定。",
+        (
+            "*",
+            "Some settings for Load My Settings feature.",
+        ): "一些關於“加載我的設定”功能的設定。",
         (
             "*",
             "Please configure following settings before applying Load My Settings feature.",
@@ -83,7 +98,10 @@ langs_dict = {
             "Use CPU in GPU render setting of Load My Settings feature",
         ): "在“加載我的設定”功能的GPU渲染設定中使用CPU",
         ("*", "Preset Theme"): "預設主題",
-        ("*", "Preset theme for Load My Settings feature"): "“加載我的設定”功能的預設主題",
+        (
+            "*",
+            "Preset theme for Load My Settings feature",
+        ): "“加載我的設定”功能的預設主題",
         ("*", "Blender Dark (Dark Theme)"): "Blender深（深色主題）",
         ("*", "Blender Light (Light Theme)"): "Blender浅（淺色主題）",
         ("*", "Deep Grey (Dark Theme)"): "深灰（深色主題）",
