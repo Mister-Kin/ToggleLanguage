@@ -16,7 +16,7 @@ An addon for blender, aiming to quickly and easily toggle UI between two languag
 ## Features
 - One click to toggle UI language (support 17 languages and hotkey)
 - One click to open user preferences (support hotkey)
-- One click to setup personal settings of blender
+- One click to setup personal settings for blender
 - One click to switch hint mode: default mode and developer mode
 - One click to delete all collections and objects in current scene
 - One click to add video progress bar

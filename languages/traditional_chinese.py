@@ -30,12 +30,12 @@ langs_dict = {
         ("Operator", "Load My Settings"): "載入我的設定",
         (
             "*",
-            "Load my customized settings of startup file and preferences",
+            "Load my customized settings for startup file and preferences",
         ): "載入我的啓動文件和偏好設定的自定義設定",
         ("Operator", "Load Factory Settings"): "載入出廠設定",
         (
             "*",
-            "Load factory settings of startup file and preferences",
+            "Load factory settings for startup file and preferences",
         ): "載入啓動文件和偏好設定的出廠設定",
         ("Operator", "Delete All Collections and Objects"): "刪除所有集合和物體",
         (
@@ -59,7 +59,7 @@ langs_dict = {
         ("*", "Translate New Data-Block's Name"): "翻譯新建數據塊的名稱",
         (
             "*",
-            "Enable or disable translation of new data-block's name",
+            "Enable or disable translation for new data-block's name",
         ): "啓用或禁用新建數據塊名稱的翻譯",
         ("*", "First Language"): "第一種語言",
         ("*", "First language for toggling"): "用於切換的第一種語言",
@@ -68,12 +68,12 @@ langs_dict = {
         ("*", "Disable Paths Setting"): "禁用路徑設定",
         (
             "*",
-            "Disable paths setting of Load My Settings feature",
+            "Disable paths setting for Load My Settings feature",
         ): "禁用“加載我的設定”功能的路徑設定",
         ("*", "Disable Theme Setting"): "禁用主題設定",
         (
             "*",
-            "Disable theme setting of Load My Settings feature",
+            "Disable theme setting for Load My Settings feature",
         ): "禁用“加載我的設定”功能的主題設定",
         ("*", "Disable Saving Startup File"): "禁止儲存初始啓動檔案",
         (
@@ -95,7 +95,7 @@ langs_dict = {
         ("*", "Use CPU in GPU Render Setting"): "在GPU渲染設定中使用CPU",
         (
             "*",
-            "Use CPU in GPU render setting of Load My Settings feature",
+            "Use CPU in GPU render setting for Load My Settings feature",
         ): "在“加載我的設定”功能的GPU渲染設定中使用CPU",
         ("*", "Preset Theme"): "預設主題",
         (

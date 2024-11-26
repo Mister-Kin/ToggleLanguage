@@ -94,7 +94,7 @@ class TOGGLE_LANGUAGE_OT_use_developer_hint_scheme(Operator):
 class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
     bl_idname = "toggle_language.load_my_settings"
     bl_label = "Load My Settings"
-    bl_description = "Load my customized settings of startup file and preferences"
+    bl_description = "Load my customized settings for startup file and preferences"
 
     def execute(self, context):
         scene = context.scene
@@ -388,7 +388,7 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
 class TOGGLE_LANGUAGE_OT_load_factory_settings(Operator):
     bl_idname = "toggle_language.load_factory_settings"
     bl_label = "Load Factory Settings"
-    bl_description = "Load factory settings of startup file and preferences"
+    bl_description = "Load factory settings for startup file and preferences"
 
     def execute(self, context):
         bpy.ops.wm.read_factory_settings()

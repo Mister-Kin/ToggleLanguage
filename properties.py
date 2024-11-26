@@ -70,7 +70,7 @@ def update_translate_new_dataname_state(self, context):
 class ToggleLanguageSettings(PropertyGroup):
     translate_new_dataname: BoolProperty(
         name="Translate New Data-Block's Name",
-        description="Enable or disable translation of new data-block's name",
+        description="Enable or disable translation for new data-block's name",
         default=False,
         update=update_translate_new_dataname_state,
     )
@@ -117,13 +117,13 @@ class ToggleLanguagePreferences(AddonPreferences):
 
     disable_paths_setting: BoolProperty(
         name="Disable Paths Setting",
-        description="Disable paths setting of Load My Settings feature",
+        description="Disable paths setting for Load My Settings feature",
         default=False,
     )
 
     disable_theme_setting: BoolProperty(
         name="Disable Theme Setting",
-        description="Disable theme setting of Load My Settings feature",
+        description="Disable theme setting for Load My Settings feature",
         default=False,
     )
 
@@ -135,7 +135,7 @@ class ToggleLanguagePreferences(AddonPreferences):
 
     use_cpu_in_gpu_render_setting: BoolProperty(
         name="Use CPU in GPU Render Setting",
-        description="Use CPU in GPU render setting of Load My Settings feature",
+        description="Use CPU in GPU render setting for Load My Settings feature",
         default=False,
     )
 
