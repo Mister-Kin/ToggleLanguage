@@ -14,7 +14,7 @@ langs_dict = {
         ("*", "Hint Scheme Menu"): "提示方案菜单",
         # operators.py
         ("*", "Message Box"): "消息框",
-        ("Operator", "Toggle"): "切换语言",
+        ("Operator", "Toggle Language"): "切换语言",
         ("*", "Click button to toggle language"): "点击按钮以切换语言",
         ("*", "Fail to Toggle Language"): "切换语言失败",
         (
