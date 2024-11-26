@@ -86,6 +86,10 @@ langs_dict = {
         ): "請爲插件選擇兩種語言以用於切換界面語言。",
         (
             "*",
+            "Addon's Keymaps",
+        ): "插件的鍵位映射",
+        (
+            "*",
             "Some settings for Load My Settings feature.",
         ): "一些關於“加載我的設定”功能的設定。",
         (

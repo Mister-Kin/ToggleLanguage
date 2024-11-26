@@ -160,6 +160,23 @@ class ToggleLanguagePreferences(AddonPreferences):
 
         box = layout.box()
         box.label(
+            text="Addon's Keymaps",
+            icon="TOOL_SETTINGS",
+        )
+        import rna_keymap_ui
+        from . import keymaps
+
+        col = box.column()
+        kc = bpy.context.window_manager.keyconfigs.addon
+        # km = context.window_manager.keyconfigs.user.keymaps["Window"]
+        for km, kmi in keymaps.addon_keymaps:
+            km = km.active()
+            kmi = self.get_addon_keymaps_item(km, kmi.idname)
+            col.context_pointer_set("keymap", km)
+            rna_keymap_ui.draw_kmi([], kc, km, kmi, col, 0)
+
+        box = layout.box()
+        box.label(
             text="Some settings for Load My Settings feature.",
             icon="TOOL_SETTINGS",
         )
@@ -178,6 +195,12 @@ class ToggleLanguagePreferences(AddonPreferences):
 
         row = box.row(align=True)
         row.prop(self, "preset_theme")
+
+    def get_addon_keymaps_item(self, km, kmi_idname):
+        for i, km_item in enumerate(km.keymap_items):
+            if km.keymap_items.keys()[i] == kmi_idname:
+                return km_item
+        return None
 
 
 classes = (
