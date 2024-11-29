@@ -2,6 +2,8 @@ import bpy
 from bpy.types import PropertyGroup, AddonPreferences
 from bpy.props import BoolProperty, EnumProperty
 from bpy.app import translations
+import rna_keymap_ui
+from . import keymaps
 
 enum_languages = (
     ("zh_HANS", "Simplified Chinese (简体中文)", "zh_HANS", 1),
@@ -163,9 +165,6 @@ class ToggleLanguagePreferences(AddonPreferences):
             text="Addon's Keymaps",
             icon="TOOL_SETTINGS",
         )
-        import rna_keymap_ui
-        from . import keymaps
-
         col = box.column()
         kc = bpy.context.window_manager.keyconfigs.addon
         # km = context.window_manager.keyconfigs.user.keymaps["Window"]
