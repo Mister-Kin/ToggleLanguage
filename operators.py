@@ -2,6 +2,7 @@ import bpy
 from bpy.types import Operator
 from bpy.app import translations
 from multiprocessing import cpu_count
+from . import properties
 
 
 def message_box(title="Message Box", message="", icon="INFO"):
@@ -29,6 +30,17 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
                     userpref.view.language = addonpref.second_lang
                 else:
                     userpref.view.language = addonpref.first_lang
+                enum_languages_dict = {
+                    lang[0]: lang[1] for lang in properties.enum_languages
+                }
+                self.report(
+                    {"INFO"},
+                    "{} {} {}".format(
+                        translations.pgettext("Switched to"),
+                        enum_languages_dict.get(userpref.view.language),
+                        translations.pgettext("interface!"),
+                    ),
+                )
             else:
                 message_box(
                     title="Fail to Toggle Language",
@@ -41,6 +53,17 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
                     userpref.view.language = addonpref.second_lang_before_v4
                 else:
                     userpref.view.language = addonpref.first_lang_before_v4
+                enum_languages_before_v4_dict = {
+                    lang[0]: lang[1] for lang in properties.enum_languages_before_v4
+                }
+                self.report(
+                    {"INFO"},
+                    "{} {} {}".format(
+                        translations.pgettext("Switched to"),
+                        enum_languages_before_v4_dict.get(userpref.view.language),
+                        translations.pgettext("interface!"),
+                    ),
+                )
             else:
                 message_box(
                     title="Fail to Toggle Language",
@@ -73,7 +96,7 @@ class TOGGLE_LANGUAGE_OT_use_default_hint_scheme(Operator):
 
         userpref.view.show_developer_ui = False
         userpref.view.show_tooltips_python = False
-        self.report({"INFO"}, "Switch to default mode!")
+        self.report({"INFO"}, "Switched to default mode!")
         return {"FINISHED"}
 
 
@@ -87,7 +110,7 @@ class TOGGLE_LANGUAGE_OT_use_developer_hint_scheme(Operator):
 
         userpref.view.show_developer_ui = True
         userpref.view.show_tooltips_python = True
-        self.report({"INFO"}, "Switch to developer mode!")
+        self.report({"INFO"}, "Switched to developer mode!")
         return {"FINISHED"}
 
 
@@ -402,7 +425,7 @@ class TOGGLE_LANGUAGE_OT_load_factory_settings(Operator):
 
 class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
     bl_idname = "toggle_language.delete_all_collections_and_objects"
-    bl_label = "Delete All Collections and Objects"
+    bl_label = "Delete All Collections and Objects in Current Scene"
     bl_description = "Delete all collections and objects in current scene"
 
     def execute(self, context):

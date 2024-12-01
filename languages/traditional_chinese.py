@@ -16,6 +16,8 @@ langs_dict = {
         ("*", "Message Box"): "消息框",
         ("Operator", "Toggle Language"): "切換語言",
         ("*", "Click button to toggle language"): "點擊按鈕以切換語言",
+        ("*", "Switched to"): "已切換到",
+        ("*", "interface!"): "界面！",
         ("*", "Fail to Toggle Language"): "切換語言失敗",
         (
             "*",
@@ -23,10 +25,10 @@ langs_dict = {
         ): "兩種語言相同！請爲插件選擇兩種不同的語言。",
         ("Operator", "Default Mode"): "默認模式",
         ("*", "Show no extra information"): "不顯示多餘的信息",
-        ("*", "Switch to default mode!"): "切換到默認模式！",
+        ("*", "Switched to default mode!"): "已切換到默認模式！",
         ("Operator", "Developer Mode"): "開發者模式",
         ("*", "Show tooltips and options for developers"): "顯示開發者的工具提示和選項",
-        ("*", "Switch to developer mode!"): "切換到開發者模式！",
+        ("*", "Switched to developer mode!"): "已切換到開發者模式！",
         ("Operator", "Load My Settings"): "載入我的設定",
         (
             "*",
@@ -37,7 +39,10 @@ langs_dict = {
             "*",
             "Load factory settings for startup file and preferences",
         ): "載入啓動文件和偏好設定的出廠設定",
-        ("Operator", "Delete All Collections and Objects"): "刪除所有集合和物體",
+        (
+            "Operator",
+            "Delete All Collections and Objects in Current Scene",
+        ): "删除當前場景中的所有集合和物體",
         (
             "*",
             "Delete all collections and objects in current scene",
