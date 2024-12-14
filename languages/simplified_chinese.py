@@ -29,16 +29,26 @@ langs_dict = {
         ("Operator", "Developer Mode"): "开发者模式",
         ("*", "Show tooltips and options for developers"): "显示开发者的工具提示和选项",
         ("*", "Switched to developer mode!"): "已切换到开发者模式！",
-        ("Operator", "Load My Settings"): "加载我的设置",
+        ("Operator", "Load My Blender Settings"): "加载我的Blender设置",
         (
             "*",
-            "Load my customized settings for startup file and preferences",
-        ): "加载我的启动文件和偏好设置的自定义设置",
-        ("Operator", "Load Factory Settings"): "加载初始设置",
+            "Load my customized blender settings for startup file and preferences",
+        ): "加载我的Blender启动文件和偏好设置的自定义设置",
         (
             "*",
-            "Load factory settings for startup file and preferences",
-        ): "加载启动文件和偏好设置的初始设置",
+            "This will load my customized blender settings for startup file and preferences. It might change your current settings for startup file and preferences. Are you sure?",
+        ): "这将会加载我的Blender启动文件和偏好设置的自定义设置。它可能会改变你当前的启动文件和偏好设置。你确定吗？",
+        ("*", "Load My Settings"): "加载我的设置",
+        ("Operator", "Load Blender Factory Settings"): "加载Blender初始设置",
+        (
+            "*",
+            "Load blender factory default startup file and preferences",
+        ): "还原blender启动文件和默认偏好设置",
+        (
+            "*",
+            "This will load blender factory default startup file and preferences. It will completely restore every blender setting to default value, not just addon settings. Are you sure?",
+        ): "这将会还原blender启动文件和默认偏好设置。它将完全恢复每个Blender设置项到默认值，不仅仅是插件设置。你确定吗？",
+        ("*", "Load Factory Settings"): "加载初始设置",
         (
             "Operator",
             "Delete All Collections and Objects in Current Scene",
@@ -51,6 +61,11 @@ langs_dict = {
             "*",
             "Delete all collections and objects in current scene successfully!",
         ): "成功删除当前场景中的所有集合和物体！",
+        (
+            "*",
+            "This will delete all collections and objects in current scene. Are you sure?",
+        ): "这将删除当前场景中的所有集合和物体。你确定吗？",
+        ("*", "Delete All"): "全部删除",
         ("Operator", "Add Video Progress Bar"): "添加视频进度条",
         (
             "*",

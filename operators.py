@@ -114,10 +114,12 @@ class TOGGLE_LANGUAGE_OT_use_developer_hint_scheme(Operator):
         return {"FINISHED"}
 
 
-class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
-    bl_idname = "toggle_language.load_my_settings"
-    bl_label = "Load My Settings"
-    bl_description = "Load my customized settings for startup file and preferences"
+class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
+    bl_idname = "toggle_language.load_my_blender_settings"
+    bl_label = "Load My Blender Settings"
+    bl_description = (
+        "Load my customized blender settings for startup file and preferences"
+    )
 
     def execute(self, context):
         scene = context.scene
@@ -405,13 +407,19 @@ class TOGGLE_LANGUAGE_OT_load_my_settings(Operator):
         return {"FINISHED"}
 
     def invoke(self, context, event):
-        return context.window_manager.invoke_confirm(self, event)
+        return context.window_manager.invoke_confirm(
+            self,
+            event,
+            message="This will load my customized blender settings for startup file and preferences. It might change your current settings for startup file and preferences. Are you sure?",
+            confirm_text="Load My Settings",
+            icon="WARNING",
+        )
 
 
-class TOGGLE_LANGUAGE_OT_load_factory_settings(Operator):
-    bl_idname = "toggle_language.load_factory_settings"
-    bl_label = "Load Factory Settings"
-    bl_description = "Load factory settings for startup file and preferences"
+class TOGGLE_LANGUAGE_OT_load_blender_factory_settings(Operator):
+    bl_idname = "toggle_language.load_blender_factory_settings"
+    bl_label = "Load Blender Factory Settings"
+    bl_description = "Load blender factory default startup file and preferences"
 
     def execute(self, context):
         bpy.ops.wm.read_factory_settings()
@@ -420,7 +428,13 @@ class TOGGLE_LANGUAGE_OT_load_factory_settings(Operator):
         return {"FINISHED"}
 
     def invoke(self, context, event):
-        return context.window_manager.invoke_confirm(self, event)
+        return context.window_manager.invoke_confirm(
+            self,
+            event,
+            message="This will load blender factory default startup file and preferences. It will completely restore every blender setting to default value, not just addon settings. Are you sure?",
+            confirm_text="Load Factory Settings",
+            icon="WARNING",
+        )
 
 
 class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
@@ -450,7 +464,13 @@ class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
         return {"FINISHED"}
 
     def invoke(self, context, event):
-        return context.window_manager.invoke_confirm(self, event)
+        return context.window_manager.invoke_confirm(
+            self,
+            event,
+            message="This will delete all collections and objects in current scene. Are you sure?",
+            confirm_text="Delete All",
+            icon="WARNING",
+        )
 
 
 # TODO：可调参数，弹出窗口，待完善开发
@@ -552,8 +572,8 @@ classes = (
     TOGGLE_LANGUAGE_OT_toggle_language,
     TOGGLE_LANGUAGE_OT_use_default_hint_scheme,
     TOGGLE_LANGUAGE_OT_use_developer_hint_scheme,
-    TOGGLE_LANGUAGE_OT_load_my_settings,
-    TOGGLE_LANGUAGE_OT_load_factory_settings,
+    TOGGLE_LANGUAGE_OT_load_my_blender_settings,
+    TOGGLE_LANGUAGE_OT_load_blender_factory_settings,
     TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects,
     TOGGLE_LANGUAGE_OT_add_video_progress_bar,
 )

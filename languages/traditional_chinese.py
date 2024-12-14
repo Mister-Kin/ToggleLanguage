@@ -29,16 +29,26 @@ langs_dict = {
         ("Operator", "Developer Mode"): "開發者模式",
         ("*", "Show tooltips and options for developers"): "顯示開發者的工具提示和選項",
         ("*", "Switched to developer mode!"): "已切換到開發者模式！",
-        ("Operator", "Load My Settings"): "載入我的設定",
+        ("Operator", "Load My Blender Settings"): "載入我的Blender設定",
         (
             "*",
-            "Load my customized settings for startup file and preferences",
-        ): "載入我的啓動文件和偏好設定的自定義設定",
-        ("Operator", "Load Factory Settings"): "載入出廠設定",
+            "Load my customized blender settings for startup file and preferences",
+        ): "載入我的blender啓動文件和偏好設定的自定義設定",
         (
             "*",
-            "Load factory settings for startup file and preferences",
-        ): "載入啓動文件和偏好設定的出廠設定",
+            "This will load my customized blender settings for startup file and preferences. It might change your current settings for startup file and preferences. Are you sure?",
+        ): "這將會載入我的Blender啓動文件和偏好設定的自定義設定。它可能會改變你當前的啓動文件和偏好設定。你確定嗎？",
+        ("*", "Load My Settings"): "載入我的設定",
+        ("Operator", "Load Blender Factory Settings"): "載入Blender出廠設定",
+        (
+            "*",
+            "Load blender factory default startup file and preferences",
+        ): "載入blender出廠預設的初始啓動檔案和偏好設定",
+        (
+            "*",
+            "This will load blender factory default startup file and preferences. It will completely restore every blender setting to default value, not just addon settings. Are you sure?",
+        ): "這將會載入blender出廠預設的初始啓動檔案和偏好設定。它將完全恢復每個blender設定項到預設值，不僅僅是插件設定。你確定嗎？",
+        ("*", "Load Factory Settings"): "載入出廠設定",
         (
             "Operator",
             "Delete All Collections and Objects in Current Scene",
@@ -51,6 +61,11 @@ langs_dict = {
             "*",
             "Delete all collections and objects in current scene successfully!",
         ): "成功删除當前場景中的所有集合和物體！",
+        (
+            "*",
+            "This will delete all collections and objects in current scene. Are you sure?",
+        ): "這將删除當前場景中的所有集合和物體。你確定嗎？",
+        ("*", "Delete All"): "全部刪除",
         ("Operator", "Add Video Progress Bar"): "添加視頻進度條",
         (
             "*",

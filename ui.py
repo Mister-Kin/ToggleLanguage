@@ -30,8 +30,10 @@ class TOGGLE_LANGUAGE_MT_settings(Menu):
             "TOGGLE_LANGUAGE_MT_hint_scheme", icon="TEXT", text=hint_scheme_menu_name
         )
         col.prop(scene.toggle_language_settings, "translate_new_dataname")
-        col.operator("toggle_language.load_my_settings", icon="SETTINGS")
-        col.operator("toggle_language.load_factory_settings", icon="TOOL_SETTINGS")
+        col.operator("toggle_language.load_my_blender_settings", icon="SETTINGS")
+        col.operator(
+            "toggle_language.load_blender_factory_settings", icon="TOOL_SETTINGS"
+        )
 
 
 class TOGGLE_LANGUAGE_MT_hint_scheme(Menu):
