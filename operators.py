@@ -220,6 +220,8 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
             "xsi": "addons/",
         }
 
+        user_platform = bpy.app.build_platform
+        execution_path = bpy.app.binary_path
         if addonpref.disable_theme_setting == False:
             if (
                 blender_v42_plus == True
@@ -232,8 +234,6 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
                     repo_index=0, pkg_id=dict_blender_theme_name[addonpref.preset_theme]
                 )
             else:
-                user_platform = bpy.app.build_platform
-                execution_path = bpy.app.binary_path
                 theme_path = (
                     "{First_Main_Number}.{Second_Main_Number}/scripts/"
                     + blender_theme_path_variable[addonpref.preset_theme]
@@ -259,6 +259,34 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
                 )
         else:
             pass
+
+        # 添加「视频剪辑」工作区
+        video_editing_workspace_template_path = "{First_Main_Number}.{Second_Main_Number}/scripts/startup/bl_app_templates_system/Video_Editing/startup.blend"
+        video_editing_workspace_template_path = (
+            video_editing_workspace_template_path.format(
+                First_Main_Number=userpref.version[0],
+                Second_Main_Number=userpref.version[1],
+            )
+        )
+        # b"Windows" b"Darwin" b"Linux"
+        if user_platform == b"Windows":
+            video_editing_workspace_template_path = execution_path.replace(
+                "blender.exe", video_editing_workspace_template_path
+            )
+        elif user_platform == b"Darwin":
+            video_editing_workspace_template_path = execution_path.replace(
+                "MacOS/Blender", "Resources/" + video_editing_workspace_template_path
+            )
+        else:
+            video_editing_workspace_template_path = (
+                execution_path[:-7] + video_editing_workspace_template_path
+            )
+        # 追加并激活工作区为 Video Editing
+        bpy.ops.workspace.append_activate(
+            idname="Video Editing", filepath=video_editing_workspace_template_path
+        )
+        # 重新激活工作区为 Layout
+        bpy.context.window.workspace = bpy.data.workspaces["Layout"]
 
         bpy.ops.preferences.addon_enable(module="node_wrangler")
         if blender_v42_plus:
