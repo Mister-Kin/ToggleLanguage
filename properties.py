@@ -69,7 +69,7 @@ def update_translate_new_dataname_state(self, context):
         )
 
 
-class ToggleLanguageSettings(PropertyGroup):
+class Toggle_Language_settings(PropertyGroup):
     translate_new_dataname: BoolProperty(
         name="Translate New Data-Block's Name",
         description="Enable or disable translation for new data-block's name",
@@ -78,7 +78,7 @@ class ToggleLanguageSettings(PropertyGroup):
     )
 
 
-class ToggleLanguagePreferences(AddonPreferences):
+class Toggle_Language_preferences(AddonPreferences):
     bl_idname = __package__
 
     # 在 AddonPreferences class 中构建 property，其值才能随着用户偏好设置自动保存。
@@ -203,8 +203,8 @@ class ToggleLanguagePreferences(AddonPreferences):
 
 
 classes = (
-    ToggleLanguageSettings,
-    ToggleLanguagePreferences,
+    Toggle_Language_settings,
+    Toggle_Language_preferences,
 )
 
 
@@ -215,7 +215,7 @@ def register():
         register_class(cls)
 
     bpy.types.Scene.toggle_language_settings = bpy.props.PointerProperty(
-        type=ToggleLanguageSettings
+        type=Toggle_Language_settings
     )
 
 
