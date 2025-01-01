@@ -439,7 +439,7 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
             self,
             event,
             message="This will load my customized blender settings for startup file and preferences. It might change your current settings for startup file and preferences. Are you sure?",
-            confirm_text="Load My Settings",
+            confirm_text="Load My Blender Settings",
             icon="WARNING",
         )
 

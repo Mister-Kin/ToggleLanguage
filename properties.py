@@ -112,32 +112,32 @@ class Toggle_Language_preferences(AddonPreferences):
 
     preset_theme: EnumProperty(
         name="Preset Theme",
-        description="Preset theme for Load My Settings feature",
+        description="Preset theme for Load My Blender Settings feature",
         default="white",
         items=enum_themes,
     )
 
     disable_paths_setting: BoolProperty(
         name="Disable Paths Setting",
-        description="Disable paths setting for Load My Settings feature",
+        description="Disable paths setting for Load My Blender Settings feature",
         default=False,
     )
 
     disable_theme_setting: BoolProperty(
         name="Disable Theme Setting",
-        description="Disable theme setting for Load My Settings feature",
+        description="Disable theme setting for Load My Blender Settings feature",
         default=False,
     )
 
     disable_saving_startup_file: BoolProperty(
         name="Disable Saving Startup File",
-        description="Disable saving startup file when applying feature Load My Settings",
+        description="Disable saving startup file when applying feature Load My Blender Settings",
         default=False,
     )
 
     use_cpu_in_gpu_render_setting: BoolProperty(
         name="Use CPU in GPU Render Setting",
-        description="Use CPU in GPU render setting for Load My Settings feature",
+        description="Use CPU in GPU render setting for Load My Blender Settings feature",
         default=False,
     )
 
@@ -176,11 +176,11 @@ class Toggle_Language_preferences(AddonPreferences):
 
         box = layout.box()
         box.label(
-            text="Some settings for Load My Settings feature.",
+            text="Some settings for Load My Blender Settings feature.",
             icon="TOOL_SETTINGS",
         )
         box.label(
-            text="Please configure following settings before applying Load My Settings feature.",
+            text="Please configure following settings before applying Load My Blender Settings feature.",
         )
         row = box.row(align=True)
         row.prop(self, "disable_paths_setting")
