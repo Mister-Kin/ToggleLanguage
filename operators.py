@@ -1,8 +1,11 @@
 import bpy
-from bpy.types import Operator
+from bpy.types import Operator, OperatorFileListElement
 from bpy.app import translations
 from multiprocessing import cpu_count
 from . import properties
+from bpy_extras.io_utils import ImportHelper
+from bpy.props import StringProperty, CollectionProperty
+from math import radians
 
 
 def message_box(title="Message Box", message="", icon="INFO"):
@@ -596,6 +599,310 @@ class TOGGLE_LANGUAGE_OT_add_video_progress_bar(Operator):
         return {"FINISHED"}
 
 
+class TOGGLE_LANGUAGE_OT_import_blueprint(Operator, ImportHelper):
+    bl_idname = "toggle_language.import_blueprint"
+    bl_label = "Import Blueprint (Reference Image)"
+    bl_description = "Import blueprint (reference image) to current scene"
+
+    filter_glob: StringProperty(
+        # below line can support all image formats supported by blender
+        # default="*" + ";*".join(bpy.path.extensions_image),
+        default="*.png;*.jpg;*.jpeg;*.jp2;*.bmp;*.webp",
+        options={"HIDDEN"},
+        maxlen=255,
+    )
+
+    files: CollectionProperty(
+        name="File Path",
+        type=OperatorFileListElement,
+    )
+
+    directory: StringProperty(
+        subtype="DIR_PATH",
+    )
+
+    def execute(self, context):
+        files = self.files
+        directory = self.directory
+        if files[0].name == "":
+            message_box(
+                title="Fail to Import Blueprint (Reference Image)",
+                message="Haven't selected any reference images! Please re-import and select some reference images.",
+                icon="ERROR",
+            )
+        else:
+            blueprint_path_front = blueprint_path_right = blueprint_path_top = (
+                blueprint_path_rear
+            ) = blueprint_path_left = blueprint_path_bottom = ""
+
+            connector_list = ("-", "_", " ", ".")
+            suffix_list_front = (
+                "front",
+                "frontview",
+                "front-view",
+                "front_view",
+                "前",
+                "前视",
+                "前视图",
+            )
+            suffix_list_right = (
+                "right",
+                "rightview",
+                "right-view",
+                "right_view",
+                "右",
+                "右视",
+                "右视图",
+            )
+            suffix_list_top = (
+                "top",
+                "topview",
+                "top-view",
+                "top_view",
+                "俯",
+                "俯视",
+                "俯视图",
+                "顶",
+                "顶视",
+                "顶视图",
+            )
+            suffix_list_rear = (
+                "rear",
+                "rearview",
+                "rear-view",
+                "rear_view",
+                "后",
+                "后视",
+                "后视图",
+            )
+            suffix_list_left = (
+                "left",
+                "leftview",
+                "left-view",
+                "left_view",
+                "左",
+                "左视",
+                "左视图",
+            )
+            suffix_list_bottom = (
+                "bottom",
+                "bottomview",
+                "bottom-view",
+                "bottom_view",
+                "仰",
+                "仰视",
+                "仰视图",
+            )
+
+            for file in files:
+                for connector in connector_list:
+                    for suffix in suffix_list_front:
+                        if connector + suffix in file.name:
+                            blueprint_path_front = directory + file.name
+                    for suffix in suffix_list_right:
+                        if connector + suffix in file.name:
+                            blueprint_path_right = directory + file.name
+                    for suffix in suffix_list_top:
+                        if connector + suffix in file.name:
+                            blueprint_path_top = directory + file.name
+                    for suffix in suffix_list_rear:
+                        if connector + suffix in file.name:
+                            blueprint_path_rear = directory + file.name
+                    for suffix in suffix_list_left:
+                        if connector + suffix in file.name:
+                            blueprint_path_left = directory + file.name
+                    for suffix in suffix_list_bottom:
+                        if connector + suffix in file.name:
+                            blueprint_path_bottom = directory + file.name
+
+            blueprint_collection = bpy.data.collections.new(
+                translations.pgettext("Blueprint")
+            )
+            userpref = context.preferences
+            addonpref = userpref.addons[__package__].preferences
+            if addonpref.enable_selection_for_import_blueprint == False:
+                blueprint_collection.hide_select = True
+            else:
+                blueprint_collection.hide_select = False
+            bpy.context.scene.collection.children.link(blueprint_collection)
+
+            # 所有参考图缩放基准为前视图的高度，固定显示长度为4M。
+            if blueprint_path_front != "":
+                front_image_object = bpy.data.objects.new(
+                    translations.pgettext("Blueprint Front"), None
+                )
+                blueprint_collection.objects.link(front_image_object)
+                front_image_object.empty_display_type = "IMAGE"
+                front_image = bpy.data.images.load(filepath=blueprint_path_front)
+                front_image_object.data = front_image
+                front_image_object.empty_display_size = 4
+                front_width = front_image.size[0]
+                front_height = front_image.size[1]
+                if front_width > front_height:
+                    scale = front_width / front_height
+                    front_image_object.scale = (scale, scale, scale)
+                front_image_object.location = (0, 4, 0)
+                front_image_object.rotation_euler = (radians(90), 0, 0)
+                front_image_object.empty_image_side = "FRONT"
+                front_image_object.use_empty_image_alpha = True
+                front_image_object.color[3] = 0.5
+            if blueprint_path_rear != "":
+                rear_image_object = bpy.data.objects.new(
+                    translations.pgettext("Blueprint Rear"), None
+                )
+                blueprint_collection.objects.link(rear_image_object)
+                rear_image_object.empty_display_type = "IMAGE"
+                rear_image = bpy.data.images.load(filepath=blueprint_path_rear)
+                rear_image_object.data = rear_image
+                rear_image_object.empty_display_size = 4
+                rear_width = rear_image.size[0]
+                rear_height = rear_image.size[1]
+                if rear_width > rear_height:
+                    scale = rear_width / rear_height
+                    rear_image_object.scale = (scale, scale, scale)
+                rear_image_object.location = (0, -4, 0)
+                rear_image_object.rotation_euler = (radians(90), 0, radians(180))
+                rear_image_object.empty_image_side = "FRONT"
+                rear_image_object.use_empty_image_alpha = True
+                rear_image_object.color[3] = 0.5
+            if blueprint_path_right != "":
+                right_image_object = bpy.data.objects.new(
+                    translations.pgettext("Blueprint Right"), None
+                )
+                blueprint_collection.objects.link(right_image_object)
+                right_image_object.empty_display_type = "IMAGE"
+                right_image = bpy.data.images.load(filepath=blueprint_path_right)
+                right_image_object.data = right_image
+                right_image_object.empty_display_size = 4
+                right_width = right_image.size[0]
+                right_height = right_image.size[1]
+                if right_width > right_height:
+                    scale = right_width / right_height
+                    right_image_object.scale = (scale, scale, scale)
+                right_image_object.location = (-4, 0, 0)
+                right_image_object.rotation_euler = (radians(90), 0, radians(90))
+                right_image_object.empty_image_side = "FRONT"
+                right_image_object.use_empty_image_alpha = True
+                right_image_object.color[3] = 0.5
+            if blueprint_path_left != "":
+                left_image_object = bpy.data.objects.new(
+                    translations.pgettext("Blueprint Left"), None
+                )
+                blueprint_collection.objects.link(left_image_object)
+                left_image_object.empty_display_type = "IMAGE"
+                left_image = bpy.data.images.load(filepath=blueprint_path_left)
+                left_image_object.data = left_image
+                left_image_object.empty_display_size = 4
+                left_width = left_image.size[0]
+                left_height = left_image.size[1]
+                if left_width > left_height:
+                    scale = left_width / left_height
+                    left_image_object.scale = (scale, scale, scale)
+                left_image_object.location = (4, 0, 0)
+                left_image_object.rotation_euler = (radians(90), 0, radians(-90))
+                left_image_object.empty_image_side = "FRONT"
+                left_image_object.use_empty_image_alpha = True
+                left_image_object.color[3] = 0.5
+            if blueprint_path_top != "":
+                top_image_object = bpy.data.objects.new(
+                    translations.pgettext("Blueprint Top"), None
+                )
+                blueprint_collection.objects.link(top_image_object)
+                top_image_object.empty_display_type = "IMAGE"
+                top_image = bpy.data.images.load(filepath=blueprint_path_top)
+                top_image_object.data = top_image
+                top_image_object.empty_display_size = 4
+                top_width = top_image.size[0]
+                top_height = top_image.size[1]
+                if blueprint_path_front != "" or blueprint_path_rear != "":
+                    if top_width > top_height:
+                        if blueprint_path_front != "":
+                            scale = (front_width / front_height) * (
+                                top_width / top_height
+                            )
+                        else:
+                            scale = (rear_width / rear_height) * (
+                                top_width / top_height
+                            )
+                    else:
+                        if blueprint_path_front != "":
+                            scale = front_width / front_height
+                        else:
+                            scale = rear_width / rear_height
+                    top_image_object.scale = (scale, scale, scale)
+                elif blueprint_path_right != "" or blueprint_path_left != "":
+                    if top_width > top_height:
+                        if blueprint_path_right != "":
+                            scale = right_width / right_height
+                        else:
+                            scale = left_width / left_height
+                    else:
+                        if blueprint_path_right != "":
+                            scale = (right_width / right_height) * (
+                                top_height / top_width
+                            )
+                        else:
+                            scale = (left_width / left_height) * (
+                                top_height / top_width
+                            )
+                    top_image_object.scale = (scale, scale, scale)
+                top_image_object.location = (0, 0, -4)
+                top_image_object.rotation_euler = (0, 0, radians(90))
+                top_image_object.empty_image_side = "FRONT"
+                top_image_object.use_empty_image_alpha = True
+                top_image_object.color[3] = 0.5
+            if blueprint_path_bottom != "":
+                bottom_image_object = bpy.data.objects.new(
+                    translations.pgettext("Blueprint Bottom"), None
+                )
+                blueprint_collection.objects.link(bottom_image_object)
+                bottom_image_object.empty_display_type = "IMAGE"
+                bottom_image = bpy.data.images.load(filepath=blueprint_path_bottom)
+                bottom_image_object.data = bottom_image
+                bottom_image_object.empty_display_size = 4
+                bottom_width = bottom_image.size[0]
+                bottom_height = bottom_image.size[1]
+                if blueprint_path_front != "" or blueprint_path_rear != "":
+                    if bottom_width > bottom_height:
+                        if blueprint_path_front != "":
+                            scale = (front_width / front_height) * (
+                                bottom_width / bottom_height
+                            )
+                        else:
+                            scale = (rear_width / rear_height) * (
+                                bottom_width / bottom_height
+                            )
+                    else:
+                        if blueprint_path_front != "":
+                            scale = front_width / front_height
+                        else:
+                            scale = rear_width / rear_height
+                    bottom_image_object.scale = (scale, scale, scale)
+                elif blueprint_path_right != "" or blueprint_path_left != "":
+                    if bottom_width > bottom_height:
+                        if blueprint_path_right != "":
+                            scale = right_width / right_height
+                        else:
+                            scale = left_width / left_height
+                    else:
+                        if blueprint_path_right != "":
+                            scale = (right_width / right_height) * (
+                                bottom_height / bottom_width
+                            )
+                        else:
+                            scale = (left_width / left_height) * (
+                                bottom_height / bottom_width
+                            )
+                    bottom_image_object.scale = (scale, scale, scale)
+                bottom_image_object.location = (0, 0, 4)
+                bottom_image_object.rotation_euler = (radians(180), 0, radians(90))
+                bottom_image_object.empty_image_side = "FRONT"
+                bottom_image_object.use_empty_image_alpha = True
+                bottom_image_object.color[3] = 0.5
+            self.report({"INFO"}, "Import blueprint (reference image) successfully!")
+        return {"FINISHED"}
+
+
 classes = (
     TOGGLE_LANGUAGE_OT_toggle_language,
     TOGGLE_LANGUAGE_OT_use_default_hint_scheme,
@@ -604,6 +911,7 @@ classes = (
     TOGGLE_LANGUAGE_OT_load_blender_factory_settings,
     TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects,
     TOGGLE_LANGUAGE_OT_add_video_progress_bar,
+    TOGGLE_LANGUAGE_OT_import_blueprint,
 )
 
 

@@ -75,6 +75,27 @@ langs_dict = {
         ("*", "video progress bar roll mask"): "视频进度条滚动遮罩",
         ("*", "video progress bar mask"): "视频进度条遮罩",
         ("*", "Add video progress bar successfully!"): "成功添加视频进度条！",
+        ("Operator", "Import Blueprint (Reference Image)"): "导入蓝图（参考图）",
+        (
+            "*",
+            "Import blueprint (reference image) to current scene",
+        ): "导入蓝图（参考图）到当前场景",
+        ("*", "Fail to Import Blueprint (Reference Image)"): "无法导入蓝图（参考图）",
+        (
+            "*",
+            "Haven't selected any reference images! Please re-import and select some reference images.",
+        ): "没有选择任何参考图像！请重新导入并选择一些参考图像。",
+        ("*", "Blueprint"): "蓝图",
+        ("*", "Blueprint Front"): "蓝图前视图",
+        ("*", "Blueprint Rear"): "蓝图后视图",
+        ("*", "Blueprint Right"): "蓝图右视图",
+        ("*", "Blueprint Left"): "蓝图左视图",
+        ("*", "Blueprint Top"): "蓝图俯视图",
+        ("*", "Blueprint Bottom"): "蓝图仰视图",
+        (
+            "*",
+            "Import blueprint (reference image) successfully!",
+        ): "成功导入蓝图（参考图）！",
         # properties.py
         ("*", "Translate New Data-Block's Name"): "翻译新建数据块的名称",
         (
@@ -121,6 +142,12 @@ langs_dict = {
             "*",
             "Use CPU in GPU render setting for Load My Blender Settings feature",
         ): "在“加载我的Blender设置”功能的GPU渲染设置中使用CPU",
+        ("*", "Enable Selection for Import Blueprint"): "启用“导入蓝图”的选择",
+        (
+            "*",
+            "Enable selection for Import Blueprint feature",
+        ): "启用“导入蓝图”功能的选择",
+        ("*", "Addon's Utility Settings"): "插件的实用工具设置",
         ("*", "Preset Theme"): "预设主题",
         (
             "*",

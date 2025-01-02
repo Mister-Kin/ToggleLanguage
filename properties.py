@@ -141,6 +141,12 @@ class Toggle_Language_preferences(AddonPreferences):
         default=False,
     )
 
+    enable_selection_for_import_blueprint: BoolProperty(
+        name="Enable Selection for Import Blueprint",
+        description="Enable selection for Import Blueprint feature",
+        default=False,
+    )
+
     def draw(self, context):
         layout = self.layout
         userpref = context.preferences
@@ -173,6 +179,14 @@ class Toggle_Language_preferences(AddonPreferences):
             kmi = self.get_addon_keymaps_item(km, kmi.idname)
             col.context_pointer_set("keymap", km)
             rna_keymap_ui.draw_kmi([], kc, km, kmi, col, 0)
+
+        box = layout.box()
+        box.label(
+            text="Addon's Utility Settings",
+            icon="TOOL_SETTINGS",
+        )
+        row = box.row(align=True)
+        row.prop(self, "enable_selection_for_import_blueprint")
 
         box = layout.box()
         box.label(

@@ -59,6 +59,7 @@ class TOGGLE_LANGUAGE_MT_utilities(Menu):
             icon="OUTLINER_COLLECTION",
         )
         col.operator("toggle_language.add_video_progress_bar", icon="TOPBAR")
+        col.operator("toggle_language.import_blueprint", icon="IMAGE_REFERENCE")
 
 
 classes = (
