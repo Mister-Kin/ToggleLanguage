@@ -143,7 +143,7 @@ class Toggle_Language_preferences(AddonPreferences):
 
     enable_selection_for_import_blueprint: BoolProperty(
         name="Enable Selection for Import Blueprint",
-        description="Enable selection for Import Blueprint feature",
+        description="Enable selection for Import Blueprint feature (Blueprint reference can't be selected after importing if not checked)",
         default=False,
     )
 

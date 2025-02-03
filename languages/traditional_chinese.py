@@ -145,8 +145,8 @@ langs_dict = {
         ("*", "Enable Selection for Import Blueprint"): "啓用“載入藍圖”的選擇",
         (
             "*",
-            "Enable selection for Import Blueprint feature",
-        ): "啓用“載入藍圖”功能的選擇",
+            "Enable selection for Import Blueprint feature (Blueprint reference can't be selected after importing if not checked)",
+        ): "啓用“載入藍圖”功能的選擇（若未勾選,則藍圖參考圖在載入後無法被選中）",
         ("*", "Addon's Utility Settings"): "插件的效用設定",
         ("*", "Preset Theme"): "預設主題",
         (
