@@ -56,7 +56,7 @@ class TOGGLE_LANGUAGE_MT_utilities(Menu):
         col = layout.column(align=True)
         col.operator(
             "toggle_language.delete_all_collections_and_objects",
-            icon="OUTLINER_COLLECTION",
+            icon="OUTLINER",
         )
         col.operator("toggle_language.add_video_progress_bar", icon="TOPBAR")
         col.operator("toggle_language.import_blueprint", icon="IMAGE_REFERENCE")
