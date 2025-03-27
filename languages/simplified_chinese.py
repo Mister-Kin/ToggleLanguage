@@ -12,7 +12,9 @@ langs_dict = {
         ("*", "Current Hint Scheme: Default"): "当前提示方案：默认",
         ("*", "Current Hint Scheme: Developer"): "当前提示方案：开发者",
         ("*", "Hint Scheme Menu"): "提示方案菜单",
+        ("*", "Utilities"): "实用工具",
         # operators.py
+        ("*", "Confirm"): "确认",
         ("*", "Message Box"): "消息框",
         ("Operator", "Toggle Language"): "切换语言",
         ("*", "Click button to toggle language"): "点击按钮以切换语言",
@@ -96,6 +98,33 @@ langs_dict = {
             "*",
             "Import blueprint (reference image) successfully!",
         ): "成功导入蓝图（参考图）！",
+        ("Operator", "Check Addon Update"): "检查插件更新",
+        ("*", "Check for updates."): "检查插件更新情况",
+        ("*", "not found"): "未找到",
+        (
+            "*",
+            "Current addon version can't be retrieved. Please check if",
+        ): "无法检索当前插件的版本。请检查",
+        ("*", "exists."): "是否存在。",
+        (
+            "*",
+            "Addon updated successfully. Please restart Blender to finish update.",
+        ): "插件更新成功。请重新启动Blender以完成更新。",
+        ("*", "Addon updated successfully"): "插件更新成功",
+        (
+            "*",
+            "Please restart Blender to finish update.",
+        ): "请重新启动Blender以完成更新。",
+        (
+            "*",
+            "Failed to download latest version of the addon.",
+        ): "无法下载最新版本的插件。",
+        ("*", "current_version: "): "当前版本：",
+        ("*", "latest_version: "): "最新版本：",
+        ("*", "Your addon is out-of-date."): "你的插件需要更新。",
+        ("*", "Your addon is already up-to-date."): "你的插件已经是最新发布版。",
+        ("*", "Your addon is newer than latest."): "你的插件版本已超前于最新发布版。",
+        ("*", "Failed to retrieve latest version."): "无法检索到最新版本。",
         # properties.py
         ("*", "Translate New Data-Block's Name"): "翻译新建数据块的名称",
         (

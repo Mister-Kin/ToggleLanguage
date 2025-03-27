@@ -6,6 +6,32 @@ from . import properties
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty, CollectionProperty
 from math import radians
+import requests, os, io, json, shutil, zipfile, tempfile
+
+
+class TOGGLE_LANGUAGE_OT_message_box_with_confirm(bpy.types.Operator):
+    bl_idname = "wm.message_box_with_confirm"
+    bl_label = "Message Box"
+
+    title: bpy.props.StringProperty(default="Message Box")
+    message: bpy.props.StringProperty(default="")
+    icon: bpy.props.StringProperty(default="INFO")
+
+    def invoke(self, context, event):
+        return context.window_manager.invoke_confirm(
+            self,
+            event,
+            title=self.title,
+            message=self.message,
+            confirm_text="Confirm",
+            icon=self.icon,
+        )
+
+
+def message_box_with_confirm(title="Message Box", message="", icon="INFO"):
+    bpy.ops.wm.message_box_with_confirm(
+        "INVOKE_DEFAULT", title=title, message=message, icon=icon
+    )
 
 
 def message_box(title="Message Box", message="", icon="INFO"):
@@ -903,6 +929,98 @@ class TOGGLE_LANGUAGE_OT_import_blueprint(Operator, ImportHelper):
         return {"FINISHED"}
 
 
+class TOGGLE_LANGUAGE_OT_check_addon_update(Operator):
+    bl_idname = "toggle_language.check_addon_update"
+    bl_label = "Check Addon Update"
+    bl_description = "Check for updates."
+
+    def get_current_addon_version(self, manifest_file):
+        if os.path.exists(manifest_file):
+            with open(manifest_file, "r") as f:
+                content = f.read()
+                lines = content.splitlines()
+                version = None
+                for line in lines:
+                    if line.startswith("version = "):
+                        version = line.split(" = ")[1].strip('"')
+                        break
+                return version
+        else:
+            message_box(
+                title=f"{manifest_file} {translations.pgettext('not found')}",
+                message="{} {} {}".format(
+                    translations.pgettext(
+                        "Current addon version can't be retrieved. Please check if"
+                    ),
+                    manifest_file,
+                    translations.pgettext("exists."),
+                ),
+                icon="ERROR",
+            )
+            return {"CANCELLED"}
+
+    def download_and_install(self, latest_tag):
+        url = f"https://github.com/Mister-Kin/ToggleLanguage/archive/refs/tags/{latest_tag}.zip"
+        response = requests.get(url)
+        if response.status_code == 200:
+            zip_file_bytes = io.BytesIO(response.content)
+            temp_dir = tempfile.gettempdir()
+            with zipfile.ZipFile(zip_file_bytes) as zip_ref:
+                zip_ref.extractall(temp_dir)
+            latest_version = latest_tag.lstrip("v")
+            latest_dir = os.path.join(temp_dir, f"ToggleLanguage-{latest_version}")
+            current_dir = os.path.dirname(__file__)
+            print(latest_dir, current_dir)
+            shutil.rmtree(current_dir)
+            shutil.copytree(latest_dir, current_dir, dirs_exist_ok=True, ignore=None)
+            shutil.rmtree(latest_dir)
+            # 暂未找到可靠方案实现自动刷新插件，因此需要手动重启Blender完成更新
+            self.report(
+                {"INFO"},
+                "Addon updated successfully. Please restart Blender to finish update.",
+            )
+            message_box_with_confirm(
+                title="Addon updated successfully",
+                message="Please restart Blender to finish update.",
+                icon="INFO",
+            )
+            return {"FINISHED"}
+        else:
+            self.report({"ERROR"}, "Failed to download latest version of the addon.")
+            return {"CANCELLED"}
+
+    def execute(self, context):
+
+        current_dir = os.path.dirname(__file__)
+        manifest_file = os.path.join(current_dir, "blender_manifest.toml")
+        current_version = self.get_current_addon_version(manifest_file)
+        addon_url = (
+            "https://api.github.com/repos/Mister-Kin/ToggleLanguage/releases/latest"
+        )
+        response = requests.get(addon_url)
+        if response.status_code == 200:
+            data = json.loads(response.text)
+            latest_tag = data["tag_name"]
+            latest_version = latest_tag.lstrip("v")
+            self.report(
+                {"INFO"},
+                f"{translations.pgettext('current_version: ')}{current_version}, {translations.pgettext('latest_version: ')}{latest_version}",
+            )
+            if latest_version > current_version:
+                self.report({"INFO"}, "Your addon is out-of-date.")
+                self.download_and_install(latest_tag)
+                return {"FINISHED"}
+            elif latest_version == current_version:
+                self.report({"INFO"}, "Your addon is already up-to-date.")
+                return {"CANCELLED"}
+            else:
+                self.report({"INFO"}, "Your addon is newer than latest.")
+                return {"CANCELLED"}
+        else:
+            self.report({"ERROR"}, "Failed to retrieve latest version.")
+            return {"CANCELLED"}
+
+
 classes = (
     TOGGLE_LANGUAGE_OT_toggle_language,
     TOGGLE_LANGUAGE_OT_use_default_hint_scheme,
@@ -912,6 +1030,8 @@ classes = (
     TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects,
     TOGGLE_LANGUAGE_OT_add_video_progress_bar,
     TOGGLE_LANGUAGE_OT_import_blueprint,
+    TOGGLE_LANGUAGE_OT_check_addon_update,
+    TOGGLE_LANGUAGE_OT_message_box_with_confirm,
 )
 
 

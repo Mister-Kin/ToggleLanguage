@@ -34,6 +34,7 @@ class TOGGLE_LANGUAGE_MT_settings(Menu):
         col.operator(
             "toggle_language.load_blender_factory_settings", icon="TOOL_SETTINGS"
         )
+        col.operator("toggle_language.check_addon_update", icon="TRIA_UP")
 
 
 class TOGGLE_LANGUAGE_MT_hint_scheme(Menu):
