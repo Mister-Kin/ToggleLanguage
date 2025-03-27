@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 id = "toggle_language"
-version = "1.6.2"
+version = "1.6.3"
 name = "Toggle Language"
 tagline = "One click to toggle UI between two languages"
 maintainer = "Mr. Kin <im.misterkin@gmail.com>"

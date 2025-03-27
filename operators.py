@@ -71,11 +71,21 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
                     ),
                 )
             else:
-                message_box(
-                    title="Fail to Toggle Language",
-                    message="Two languages are same! Please select two different languages for addon.",
-                    icon="ERROR",
-                )
+                userpref = bpy.context.preferences
+                if (
+                    userpref.version[0] == 4 and userpref.version[1] >= 1
+                ) or userpref.version[0] >= 5:
+                    message_box_with_confirm(
+                        title="Fail to Toggle Language",
+                        message="Two languages are same! Please select two different languages for addon.",
+                        icon="ERROR",
+                    )
+                else:
+                    message_box_with_confirm(
+                        title="Fail to Toggle Language",
+                        message="Two languages are same! Please select two different languages for addon.",
+                        icon="ERROR",
+                    )
         else:
             if addonpref.first_lang_before_v4 != addonpref.second_lang_before_v4:
                 if lang == addonpref.first_lang_before_v4:
@@ -94,11 +104,21 @@ class TOGGLE_LANGUAGE_OT_toggle_language(Operator):
                     ),
                 )
             else:
-                message_box(
-                    title="Fail to Toggle Language",
-                    message="Two languages are same! Please select two different languages for addon.",
-                    icon="ERROR",
-                )
+                userpref = bpy.context.preferences
+                if (
+                    userpref.version[0] == 4 and userpref.version[1] >= 1
+                ) or userpref.version[0] >= 5:
+                    message_box_with_confirm(
+                        title="Fail to Toggle Language",
+                        message="Two languages are same! Please select two different languages for addon.",
+                        icon="ERROR",
+                    )
+                else:
+                    message_box_with_confirm(
+                        title="Fail to Toggle Language",
+                        message="Two languages are same! Please select two different languages for addon.",
+                        icon="ERROR",
+                    )
 
         # 检测并修正 use_translate_new_dataname 选项值。
         scene = context.scene
@@ -464,13 +484,19 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
         return {"FINISHED"}
 
     def invoke(self, context, event):
-        return context.window_manager.invoke_confirm(
-            self,
-            event,
-            message="This will load my customized blender settings for startup file and preferences. It might change your current settings for startup file and preferences. Are you sure?",
-            confirm_text="Load My Blender Settings",
-            icon="WARNING",
-        )
+        userpref = bpy.context.preferences
+        if (userpref.version[0] == 4 and userpref.version[1] >= 1) or userpref.version[
+            0
+        ] >= 5:
+            return context.window_manager.invoke_confirm(
+                self,
+                event,
+                message="This will load my customized blender settings for startup file and preferences. It might change your current settings for startup file and preferences. Are you sure?",
+                confirm_text="Load My Blender Settings",
+                icon="WARNING",
+            )
+        else:
+            return context.window_manager.invoke_confirm(self, event)
 
 
 class TOGGLE_LANGUAGE_OT_load_blender_factory_settings(Operator):
@@ -485,13 +511,19 @@ class TOGGLE_LANGUAGE_OT_load_blender_factory_settings(Operator):
         return {"FINISHED"}
 
     def invoke(self, context, event):
-        return context.window_manager.invoke_confirm(
-            self,
-            event,
-            message="This will load blender factory default startup file and preferences. It will completely restore every blender setting to default value, not just addon settings. Are you sure?",
-            confirm_text="Load Factory Settings",
-            icon="WARNING",
-        )
+        userpref = bpy.context.preferences
+        if (userpref.version[0] == 4 and userpref.version[1] >= 1) or userpref.version[
+            0
+        ] >= 5:
+            return context.window_manager.invoke_confirm(
+                self,
+                event,
+                message="This will load blender factory default startup file and preferences. It will completely restore every blender setting to default value, not just addon settings. Are you sure?",
+                confirm_text="Load Factory Settings",
+                icon="WARNING",
+            )
+        else:
+            return context.window_manager.invoke_confirm(self, event)
 
 
 class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
@@ -521,13 +553,19 @@ class TOGGLE_LANGUAGE_OT_delete_all_collections_and_objects(Operator):
         return {"FINISHED"}
 
     def invoke(self, context, event):
-        return context.window_manager.invoke_confirm(
-            self,
-            event,
-            message="This will delete all collections and objects in current scene. Are you sure?",
-            confirm_text="Delete All",
-            icon="WARNING",
-        )
+        userpref = bpy.context.preferences
+        if (userpref.version[0] == 4 and userpref.version[1] >= 1) or userpref.version[
+            0
+        ] >= 5:
+            return context.window_manager.invoke_confirm(
+                self,
+                event,
+                message="This will delete all collections and objects in current scene. Are you sure?",
+                confirm_text="Delete All",
+                icon="WARNING",
+            )
+        else:
+            return context.window_manager.invoke_confirm(self, event)
 
 
 # TODO：可调参数，弹出窗口，待完善开发
@@ -651,11 +689,21 @@ class TOGGLE_LANGUAGE_OT_import_blueprint(Operator, ImportHelper):
         files = self.files
         directory = self.directory
         if files[0].name == "":
-            message_box(
-                title="Fail to Import Blueprint (Reference Image)",
-                message="Haven't selected any reference images! Please re-import and select some reference images.",
-                icon="ERROR",
-            )
+            userpref = bpy.context.preferences
+            if (
+                userpref.version[0] == 4 and userpref.version[1] >= 1
+            ) or userpref.version[0] >= 5:
+                message_box_with_confirm(
+                    title="Fail to Import Blueprint (Reference Image)",
+                    message="Haven't selected any reference images! Please re-import and select some reference images.",
+                    icon="ERROR",
+                )
+            else:
+                message_box(
+                    title="Fail to Import Blueprint (Reference Image)",
+                    message="Haven't selected any reference images! Please re-import and select some reference images.",
+                    icon="ERROR",
+                )
         else:
             blueprint_path_front = blueprint_path_right = blueprint_path_top = (
                 blueprint_path_rear
@@ -946,17 +994,33 @@ class TOGGLE_LANGUAGE_OT_check_addon_update(Operator):
                         break
                 return version
         else:
-            message_box(
-                title=f"{manifest_file} {translations.pgettext('not found')}",
-                message="{} {} {}".format(
-                    translations.pgettext(
-                        "Current addon version can't be retrieved. Please check if"
+            userpref = bpy.context.preferences
+            if (
+                userpref.version[0] == 4 and userpref.version[1] >= 1
+            ) or userpref.version[0] >= 5:
+                message_box_with_confirm(
+                    title=f"{manifest_file} {translations.pgettext('not found')}",
+                    message="{} {} {}".format(
+                        translations.pgettext(
+                            "Current addon version can't be retrieved. Please check if"
+                        ),
+                        manifest_file,
+                        translations.pgettext("exists."),
                     ),
-                    manifest_file,
-                    translations.pgettext("exists."),
-                ),
-                icon="ERROR",
-            )
+                    icon="ERROR",
+                )
+            else:
+                message_box(
+                    title=f"{manifest_file} {translations.pgettext('not found')}",
+                    message="{} {} {}".format(
+                        translations.pgettext(
+                            "Current addon version can't be retrieved. Please check if"
+                        ),
+                        manifest_file,
+                        translations.pgettext("exists."),
+                    ),
+                    icon="ERROR",
+                )
             return {"CANCELLED"}
 
     def download_and_install(self, latest_tag):
@@ -979,11 +1043,21 @@ class TOGGLE_LANGUAGE_OT_check_addon_update(Operator):
                 {"INFO"},
                 "Addon updated successfully. Please restart Blender to finish update.",
             )
-            message_box_with_confirm(
-                title="Addon updated successfully",
-                message="Please restart Blender to finish update.",
-                icon="INFO",
-            )
+            userpref = bpy.context.preferences
+            if (
+                userpref.version[0] == 4 and userpref.version[1] >= 1
+            ) or userpref.version[0] >= 5:
+                message_box_with_confirm(
+                    title="Addon updated successfully",
+                    message="Please restart Blender to finish update.",
+                    icon="INFO",
+                )
+            else:
+                message_box(
+                    title="Addon updated successfully",
+                    message="Please restart Blender to finish update.",
+                    icon="INFO",
+                )
             return {"FINISHED"}
         else:
             self.report({"ERROR"}, "Failed to download latest version of the addon.")
