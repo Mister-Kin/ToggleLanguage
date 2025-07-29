@@ -195,6 +195,14 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
                         or userpref.version[0] >= 5
                     ):
                         blender_v42_plus = True
+                        if (
+                            userpref.version[0] == 4
+                            and userpref.version[1] >= 5
+                            or userpref.version[0] >= 5
+                        ):
+                            blender_v45_plus = True
+                        else:
+                            blender_v45_plus = False
                     else:
                         blender_v42_plus = False
                 else:
@@ -360,6 +368,13 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
         kcpref = context.window_manager.keyconfigs[blender_keyconfig_name].preferences
         kcpref.use_pie_click_drag = True
         kcpref.use_v3d_shade_ex_pie = True
+
+        if blender_v45_plus:
+            userpref.system.gpu_backend = "VULKAN"
+            self.report(
+                {"INFO"},
+                "Please restart Blender to use Vulkan backend.",
+            )
 
         userpref.filepaths.use_file_compression = True
         if addonpref.disable_paths_setting == False:

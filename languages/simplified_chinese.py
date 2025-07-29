@@ -38,6 +38,10 @@ langs_dict = {
         ): "加载我的Blender启动文件和偏好设置的自定义设置",
         (
             "*",
+            "Please restart Blender to use Vulkan backend.",
+        ): "请重启Blender以使用Vulkan后端引擎的设置。",
+        (
+            "*",
             "This will load my customized blender settings for startup file and preferences. It might change your current settings for startup file and preferences. Are you sure?",
         ): "这将会加载我的Blender启动文件和偏好设置的自定义设置。它可能会改变你当前的启动文件和偏好设置。你确定吗？",
         ("*", "Load My Blender Settings"): "加载我的Blender设置",
