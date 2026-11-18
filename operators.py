@@ -528,15 +528,28 @@ class TOGGLE_LANGUAGE_OT_load_my_blender_settings(Operator):
             return context.window_manager.invoke_confirm(self, event)
 
 
+def apply_factory_settings_and_save():
+    # 读取出厂设置并保存，供定时器延迟调用
+    # read_factory_settings()会重建bpy.data与窗口系统并卸载本插件
+    # 若在operator的execute()中同步执行，operator执行结束后概率性会访问到已释放的内存（EXCEPTION_ACCESS_VIOLATION）
+
+    bpy.ops.wm.read_factory_settings()
+    bpy.ops.wm.save_userpref()
+    bpy.ops.wm.save_homefile()
+    # 返回 None 表示该定时器执行一次后不再重复调用。
+    return None
+
+
 class TOGGLE_LANGUAGE_OT_load_blender_factory_settings(Operator):
     bl_idname = "toggle_language.load_blender_factory_settings"
     bl_label = "Load Blender Factory Settings"
     bl_description = "Load blender factory default startup file and preferences"
 
     def execute(self, context):
-        bpy.ops.wm.read_factory_settings()
-        bpy.ops.wm.save_userpref()
-        bpy.ops.wm.save_homefile()
+        # 延迟执行class类外面的函数，避免文件重载早于operator返回而访问到已释放的内存
+        # 可以避免引发EXCEPTION_ACCESS_VIOLATION报错导致Blender闪退
+        if not bpy.app.timers.is_registered(apply_factory_settings_and_save):
+            bpy.app.timers.register(apply_factory_settings_and_save, first_interval=0.1)
         return {"FINISHED"}
 
     def invoke(self, context, event):
